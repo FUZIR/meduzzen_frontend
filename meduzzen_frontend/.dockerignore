@@ -1,0 +1,4 @@
+node_modules
+.env.sample
+Dockerfile
+package-lock.json
