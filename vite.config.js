@@ -8,6 +8,10 @@ export default defineConfig(({command, mode}) => {
         plugins: [react()],
         envDir: './',
         server: {
+            port: env.PORT,
+            host: '0.0.0.0'
+        },
+        preview: {
             port: env.PORT
         }
     }
