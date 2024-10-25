@@ -8,7 +8,7 @@ function CompanyInfo() {
     const companyId = parseInt(id);
     const company = companies.find(company=> company.id === companyId)
     if (!company) {
-        return <Typography variant="h6" color={"error"}>User not found</Typography>;
+        return <Typography variant="h4" color={"error"} align={"center"}>Company not found</Typography>;
     }
     return (
         <Container maxWidth={"md"} sx={{ height: "100vh", overflow: "hidden", display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

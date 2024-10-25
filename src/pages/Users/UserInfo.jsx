@@ -8,7 +8,7 @@ function UserInfo() {
     const userId = parseInt(id);
     const user = users.find(user=> user.id === userId)
     if (!user) {
-        return <Typography variant="h6" color={"error"}>User not found</Typography>;
+        return <Typography variant="h6" color={"error"} align={"center"}>User not found</Typography>;
     }
     return (
         <Container maxWidth={"md"} sx={{ height: "100vh", overflow: "hidden", display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

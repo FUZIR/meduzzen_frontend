@@ -27,16 +27,16 @@ function Users() {
                 {usersToShow.map((user) => (
                     <InfoCard redirectUrl={"/users"}
                         id={user.id}
-                        info1={user.name}
-                        info2={user.surname}
-                        photoUrl={user.photoUrl}
-                        info3={user.company}
+                        title={user.name}
+                        subtitle={user.surname}
+                        imageUrl={user.photoUrl}
+                        description={user.company}
                         key={user.id}
                     />
                 ))}
             </Box>
             <Pagination
-                sx={{display: "flex", justifyContent: "center", alignItems: "center", mt: 3, position: "relative"}}
+                sx={{display: "flex", justifyContent: "center", alignItems: "center", mt: 3}}
                 count={pageCount}
                 page={page}
                 onChange={(event, value) => setPage(value)}

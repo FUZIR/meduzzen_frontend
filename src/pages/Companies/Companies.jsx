@@ -28,9 +28,9 @@ function Companies() {
                 {companiesToShow.map((company) => (
                     <InfoCard redirectUrl={"/companies"}
                               id={company.id}
-                              info1={company.name}
-                              photoUrl={company.photoUrl}
-                              info2={company.description}
+                              title={company.name}
+                              imageUrl={company.photoUrl}
+                              description={company.description}
                               key={company.id}
                     />
                 ))}
@@ -41,7 +41,6 @@ function Companies() {
                     justifyContent: "center",
                     alignItems: "center",
                     mt: 3,
-                    position: "relative",
                     marginBottom: 3
                 }}
                 count={pageCount}
