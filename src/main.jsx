@@ -9,6 +9,8 @@ import Users from "./pages/Users/Users.jsx";
 import UserInfo from "./pages/Users/UserInfo.jsx";
 import Companies from "./pages/Companies/Companies.jsx";
 import CompanyInfo from "./pages/Companies/CompanyInfo.jsx";
+import i18n from "./utils/i18n.js"
+import LanguageInitializer from "./hooks/LanguageInitializer.jsx";
 
 const router = createBrowserRouter([
     {
@@ -40,6 +42,7 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <CssBaseline/>
+        <LanguageInitializer/>
         <RouterProvider router={router}/>
     </StrictMode>,
 )
