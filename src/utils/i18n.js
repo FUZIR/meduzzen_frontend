@@ -4,7 +4,7 @@ import en from "./translations/en.json"
 import ua from "./translations/ua.json"
 
 i18n.use(initReactI18next).init({
-    resources:{
+    resources: {
         en: {
             translation: en
         },

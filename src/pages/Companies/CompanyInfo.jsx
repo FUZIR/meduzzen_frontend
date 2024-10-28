@@ -1,4 +1,3 @@
-import React from 'react';
 import {useParams} from "react-router-dom";
 import {Card, CardContent, CardMedia, Container, Typography} from "@mui/material";
 import {companies} from "../../utils/CompanyMock.js";

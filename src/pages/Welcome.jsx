@@ -1,10 +1,9 @@
-import React from "react";
-import {Typography, Button, Box} from "@mui/material";
+import {Box, Button, Typography} from "@mui/material";
 import SendIcon from "@mui/icons-material/Send"
 import {withTranslation} from "react-i18next";
 import LangSelect from "../components/LangSelect.jsx";
 
-function Hello({t}) {
+function Welcome({t}) {
     return (
         <Box sx={{
             display: "flex",
@@ -15,10 +14,10 @@ function Hello({t}) {
             position: "relative",
         }}>
             <Typography variant={"h2"} color={"primary"} gutterBottom>
-                {t('info_header')}
+                {t('welcome_page_header')}
             </Typography>
             <Typography variant={"h3"} color={"primary"} marginBottom={"30px"} gutterBottom>
-                {t('info_subheader')}
+                {t('welcome_page_subheader')}
             </Typography>
             <Button variant={"contained"} endIcon={<SendIcon/>} href={"/about"} size={"large"}> Let's goooo!</Button>
             <LangSelect/>
@@ -26,4 +25,4 @@ function Hello({t}) {
     )
 }
 
-export default withTranslation()(Hello);
+export default withTranslation()(Welcome);

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {Box, Container, Pagination, PaginationItem, Typography} from "@mui/material";
 import InfoCard from "../../components/InfoCard.jsx";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";

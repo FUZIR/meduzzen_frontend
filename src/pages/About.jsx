@@ -1,8 +1,7 @@
-import {Box, Container, Typography, Button} from "@mui/material";
+import {Box, Button, Container, Typography} from "@mui/material";
 import ListItem from "../components/AboutPage/ListItem.jsx"
 import {withTranslation} from "react-i18next";
 import LangSelect from "../components/LangSelect.jsx";
-import React from "react";
 
 function About({t}) {
     return (
