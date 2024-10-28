@@ -5,8 +5,9 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import {companies2 as companies} from "../../utils/CompanyMock.js";
 import LangSelect from "../../components/LangSelect.jsx";
+import {withTranslation} from "react-i18next";
 
-function Companies() {
+function Companies({t}) {
     const usersPerPage = 6;
     const [page, setPage] = useState(1);
     const startIndex = (page - 1) * usersPerPage;
@@ -18,7 +19,7 @@ function Companies() {
         <Container maxWidth="xl">
             <Container maxWidth="md">
                 <Typography variant="h3" color="primary" align="center" gutterBottom>
-                    Our Companies
+                    {t("companies_header")}
                 </Typography>
                 <Box sx={{
                     display: "flex",
@@ -28,7 +29,7 @@ function Companies() {
                     flexWrap: "wrap"
                 }}>
                     {companiesToShow.map((company) => (
-                        <InfoCard redirectUrl={"/companies"}
+                        <InfoCard detailsUrl={"/companies"}
                                   id={company.id}
                                   title={company.name}
                                   imageUrl={company.photoUrl}
@@ -61,4 +62,4 @@ function Companies() {
     );
 }
 
-export default Companies;
+export default withTranslation()(Companies);

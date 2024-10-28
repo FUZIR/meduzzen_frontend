@@ -1,18 +1,24 @@
 import React from 'react';
-import { Card, CardContent, Typography, CardMedia, Container } from '@mui/material';
+import {Card, CardContent, Typography, CardMedia, Container} from '@mui/material';
 import {useParams} from "react-router-dom";
 import {usersInfo as users} from "../../utils/UserMock.js";
 
 function UserInfo() {
-    const { id } = useParams();
+    const {id} = useParams();
     const userId = parseInt(id);
-    const user = users.find(user=> user.id === userId)
+    const user = users.find(user => user.id === userId)
     if (!user) {
         return <Typography variant="h6" color={"error"} align={"center"}>User not found</Typography>;
     }
     return (
-        <Container maxWidth={"md"} sx={{ height: "100vh", overflow: "hidden", display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Card sx={{ maxWidth: 400 }}>
+        <Container maxWidth={"md"} sx={{
+            height: "100vh",
+            overflow: "hidden",
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+        }}>
+            <Card sx={{maxWidth: 400}}>
                 <CardMedia
                     component="img"
                     height="300"

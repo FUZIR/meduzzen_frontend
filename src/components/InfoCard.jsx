@@ -15,8 +15,7 @@ function InfoCard({id, title, subtitle, imageUrl, description, detailsUrl, t}) {
             height: "250px",
             position: "relative",
             '&:hover': {
-                transform: 'scale(1.02)',
-                boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+                transform: 'scale(1.02)', boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
             }
         }}>
             <Typography variant={"h6"}>
@@ -26,13 +25,14 @@ function InfoCard({id, title, subtitle, imageUrl, description, detailsUrl, t}) {
                 {subtitle}
             </Typography>
             <Avatar alt={"avatar"} src={imageUrl}
-                    sx={{width: "60px", height: "60px", position: "absolute", top: "10px", right: "10px"}}></Avatar>
+                    sx={{width: "60px", height: "60px", position: "absolute", top: "10px", right: "10px"}}>
+            </Avatar>
             <Typography variant={"body"} color={"primary"}>{description}</Typography>
             <Button variant={"text"} href={`${detailsUrl}/${id}`} size={"small"}
                     sx={{position: "absolute", bottom: "10px", right: "10px"}}
-                    color={"primary"}>{t('info_cards_button')}</Button>
-        </Box>
-    );
+                    color={"primary"}>{t('info_cards_button')}
+            </Button>
+        </Box>);
 }
 
 export default withTranslation()(InfoCard);

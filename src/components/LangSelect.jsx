@@ -2,8 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import {useTranslation} from "react-i18next";
 
+const defaultLang = "en"
+
 function LangSelect() {
-    const [language, setLanguage] = useState("en")
+    const [language, setLanguage] = useState(defaultLang)
     const {i18n} = useTranslation()
     useEffect(() => {
         const storedLang = localStorage.getItem("language")
@@ -11,7 +13,6 @@ function LangSelect() {
             setLanguage(storedLang)
             i18n.changeLanguage(storedLang);
         } else {
-            const defaultLang = "en"
             setLanguage(defaultLang)
             i18n.changeLanguage(defaultLang)
             localStorage.setItem("language", defaultLang);

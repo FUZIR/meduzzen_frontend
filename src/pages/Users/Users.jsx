@@ -5,8 +5,9 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import {users} from "../../utils/UserMock.js";
 import LangSelect from "../../components/LangSelect.jsx";
+import {withTranslation} from "react-i18next";
 
-function Users() {
+function Users({t}) {
     const usersPerPage = 6;
     const [page, setPage] = useState(1);
     const startIndex = (page - 1) * usersPerPage;
@@ -14,10 +15,10 @@ function Users() {
     const usersToShow = users.slice(startIndex, endIndex);
     const pageCount = Math.ceil(users.length / usersPerPage);
     return (
-        <Container maxWidth={"xl"} sx={{position:"relative"}}>
+        <Container maxWidth={"xl"} sx={{position: "relative"}}>
             <Container maxWidth={"md"}>
                 <Typography variant="h3" color="primary" align="center" gutterBottom>
-                    Our active users
+                    {t("users_header")}
                 </Typography>
                 <Box sx={{
                     display: "flex",
@@ -27,7 +28,7 @@ function Users() {
                     flexWrap: "wrap"
                 }}>
                     {usersToShow.map((user) => (
-                        <InfoCard redirectUrl={"/users"}
+                        <InfoCard detailsUrl={"/users"}
                                   id={user.id}
                                   title={user.name}
                                   subtitle={user.surname}
@@ -56,4 +57,4 @@ function Users() {
     );
 }
 
-export default Users;
+export default withTranslation()(Users);
