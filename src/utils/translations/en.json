@@ -1,0 +1,16 @@
+{
+  "welcome_page_header": "Hi, it's start page of Quiz App",
+  "welcome_page_subheader": "Let's start our quiz.",
+  "about_header": "About QUIZZI",
+  "about_text": "Welcome to Quizzi App! This is a fun and interactive platform where you can challenge your knowledge on various topics through quizzes. Whether you want to test yourself or compete with friends, Quizzi is the perfect place to learn and enjoy!",
+  "about_features_header": "Key features:",
+  "about_features": [
+    "Variety of quizzes across different categories",
+    "Customizable tests for companies, tailored to specific needs",
+    "Detailed analytics and statistics for monitoring progress and improving performance",
+    "Personalized quizzes based on user interests and organizational goals"
+  ],
+  "info_cards_button": "More info",
+  "users_header": "Our active users",
+  "companies_header": "Out companies"
+}
