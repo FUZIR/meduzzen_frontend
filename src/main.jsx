@@ -10,8 +10,13 @@ import Companies from './pages/Companies/Companies.jsx';
 import CompanyInfo from './pages/Companies/CompanyInfo.jsx';
 import LanguageInitializer from './hooks/LanguageInitializer.jsx';
 import Welcome from './pages/Welcome.jsx';
+import { Provider } from 'react-redux';
+import store, { persistore } from './stores/store.js';
+import { PersistGate } from 'redux-persist/integration/react';
 
 // eslint-disable-next-line no-unused-vars
+// noinspection ES6UnusedImports
+import i18n from './utils/i18n.js';
 
 const router = createBrowserRouter([
   {
@@ -42,8 +47,12 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <CssBaseline />
-    <LanguageInitializer />
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <CssBaseline />
+      <LanguageInitializer />
+      <PersistGate loading={null} persistor={persistore}>
+        <RouterProvider router={router} />
+      </PersistGate>
+    </Provider>
   </StrictMode>,
 );
