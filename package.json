@@ -16,6 +16,7 @@
     "@mui/icons-material": "^6.1.5",
     "@mui/material": "^6.1.4",
     "@reduxjs/toolkit": "^2.3.0",
+    "axios": "^1.7.7",
     "i18next": "^23.16.4",
     "prettier": "^3.3.3",
     "react": "^18.3.1",
