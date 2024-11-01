@@ -22,7 +22,7 @@ function Healthcheck() {
       <Typography color={'primary'} variant={'h3'} marginTop={'20px'}>Backend healthcheck</Typography>
       {
         data !== null ?
-          <Box sx={{
+          (<Box sx={{
             display: 'flex',
             alignItems: 'left',
             flexDirection: 'column',
@@ -31,12 +31,12 @@ function Healthcheck() {
             <Typography color={'success'} variant={'h4'}>Status: {data.status_code}</Typography>
             <Typography color={'success'} variant={'h4'}>Detail: {data.detail}</Typography>
             <Typography color={'success'} variant={'h4'}>Result: {data.result}</Typography>
-          </Box> :
-          <Box>
+          </Box>) :
+          (<Box>
             <Typography variant={'h4'} color={'error'} marginTop={5}>
               Server is not active
             </Typography>
-          </Box>
+          </Box>)
       }
     </Box>
   );
