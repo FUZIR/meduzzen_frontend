@@ -13,6 +13,7 @@ import Welcome from './pages/Welcome.jsx';
 import { Provider } from 'react-redux';
 import store, { persistore } from './stores/store.js';
 import { PersistGate } from 'redux-persist/integration/react';
+import Healthcheck from './pages/Healthcheck.jsx';
 
 // eslint-disable-next-line no-unused-vars
 // noinspection ES6UnusedImports
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
   {
     path: '/about',
     element: <About />,
+  },
+  {
+    path: '/healthcheck',
+    element: <Healthcheck />,
   },
   {
     path: '/users',
