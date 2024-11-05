@@ -23,7 +23,7 @@ function LangSelect() {
     i18n.changeLanguage(selectedLanguage);
   };
   return (
-    <FormControl fullWidth sx={{ position: 'absolute', top: '20px', right: '20px', width: '10vw' }}>
+    <FormControl fullWidth sx={{ width: '10vw' }}>
       <InputLabel id="lang-select-label">Language</InputLabel>
       <Select
         labelId="lang-select-label"
