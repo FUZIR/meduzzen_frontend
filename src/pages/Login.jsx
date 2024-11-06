@@ -127,7 +127,6 @@ function Login({ t }) {
       dispatch(updateToken({ token, expiration }));
       storeToken(token, expiration);
       navigate('/info');
-      console.log(loginResponse.data.auth_token, expiration);
     } catch (e) {
       let errorMessage = 'An unknown error occurred';
 

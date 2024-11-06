@@ -5,7 +5,6 @@ import { removeToken } from '../utils/Storage.js';
 import { URLS } from '../utils/Urls.js';
 
 function TokenExpirationWrapper({ children }) {
-  console.log('TokenExpirationWrapper rendered');
   const expirationDate = localStorage.getItem('token_expiry');
   const dispatch = useDispatch();
 
