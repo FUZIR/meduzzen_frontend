@@ -17,6 +17,7 @@ import { withTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteToken } from '../features/token/loginSlice.js';
 import { removeToken } from '../utils/Storage.js';
+import { URLS } from '../utils/Urls.js';
 
 function AccountMenu({ t }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -92,13 +93,13 @@ function AccountMenu({ t }) {
           </MenuItem>
         ) : (
           [
-            <MenuItem key="login" onClick={handleClose} component={Link} to="/login">
+            <MenuItem key="login" onClick={handleClose} component={Link} to={URLS.LOGIN}>
               <LoginIcon>
                 <PeopleIcon fontSize="small" />
               </LoginIcon>
               {t('account_menu_login')}
             </MenuItem>,
-            <MenuItem key="registration" onClick={handleClose} component={Link} to="/registration">
+            <MenuItem key="registration" onClick={handleClose} component={Link} to={URLS.REGISTER}>
               <HowToRegIcon>
                 <PeopleIcon fontSize="small" />
               </HowToRegIcon>
@@ -108,13 +109,13 @@ function AccountMenu({ t }) {
         )}
 
         <Divider />
-        <MenuItem onClick={handleClose} component={Link} to="/users">
+        <MenuItem onClick={handleClose} component={Link} to={URLS.USERS}>
           <ListItemIcon>
             <PeopleIcon fontSize="small" />
           </ListItemIcon>
           {t('account_menu_users')}
         </MenuItem>
-        <MenuItem onClick={handleClose} component={Link} to="/companies">
+        <MenuItem onClick={handleClose} component={Link} to={URLS.COMPANIES}>
           <ListItemIcon>
             <BusinessIcon fontSize="small" />
           </ListItemIcon>
