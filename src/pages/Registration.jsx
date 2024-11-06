@@ -18,7 +18,7 @@ import { withTranslation } from 'react-i18next';
 import { Requests } from '../api/Requests.js';
 import axios from '../api/Axios.js';
 import { storeToken } from '../utils/Storage.js';
-import CalculateExpirationDate from '../utils/CalculateExpirationDate.js';
+import calculateExpirationDate from '../utils/сalculateExpirationDate.js';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -152,7 +152,7 @@ function Registration({ t }) {
         setError('Login error');
         return;
       }
-      const expiration = CalculateExpirationDate();
+      const expiration = calculateExpirationDate();
       dispatch(updateToken(loginResponse.data.auth_token, expiration));
       storeToken(loginResponse.data.auth_token, expiration);
       navigate('/info');

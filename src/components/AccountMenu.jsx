@@ -18,13 +18,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteToken } from '../features/token/loginSlice.js';
 import { removeToken } from '../utils/Storage.js';
 import { URLS } from '../utils/Urls.js';
+import { selectIsAuthenticated } from '../stores/selectors.js';
 
 function AccountMenu({ t }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const token = useSelector(state => state.login.token);
   const dispatch = useDispatch();
-  const isAuthenticated = Boolean(token);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };

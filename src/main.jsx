@@ -17,7 +17,7 @@ import Healthcheck from './pages/Healthcheck.jsx';
 import Registration from './pages/Registration.jsx';
 import Login from './pages/Login.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
-import CheckExpirationDate from './hooks/CheckExpirationDate.jsx';
+import TokenExpirationWrapper from './hooks/TokenExpirationWrapper.jsx';
 
 // eslint-disable-next-line no-unused-vars
 // noinspection ES6UnusedImports
@@ -65,14 +65,13 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
-      <CssBaseline />
-      <LanguageInitializer />
-      <PersistGate loading={null} persistor={persistore}>
-        <RouterProvider router={router}>
-          <CheckExpirationDate />
-        </RouterProvider>
-      </PersistGate>
+      <TokenExpirationWrapper>
+        <CssBaseline />
+        <LanguageInitializer />
+        <PersistGate loading={null} persistor={persistore}>
+          <RouterProvider router={router} />
+        </PersistGate>
+      </TokenExpirationWrapper>
     </Provider>
-  </StrictMode>
-  ,
+  </StrictMode>,
 );

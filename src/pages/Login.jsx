@@ -16,7 +16,9 @@ import { updateToken } from '../features/token/loginSlice.js';
 import { withTranslation } from 'react-i18next';
 import { URLS } from '../utils/Urls.js';
 import { storeToken } from '../utils/Storage.js';
-import CalculateExpirationDate from '../utils/CalculateExpirationDate.js';
+import calculateExpirationDate from '../utils/сalculateExpirationDate.js';
+import { Requests } from '../api/Requests.js';
+import axios from '../api/Axios.js';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -71,6 +73,7 @@ function Login({ t }) {
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [error, setError] = React.useState('');
   const dispatch = useDispatch();
+  const requests = new Requests(axios);
 
   const validateInputs = () => {
     const email = document.getElementById('email');
@@ -111,7 +114,7 @@ function Login({ t }) {
     const data = new FormData(event.currentTarget);
 
     try {
-      const loginResponse = await postLogin({
+      const loginResponse = await requests.postLogin({
         email: data.get('email'),
         password: data.get('password'),
       });
@@ -119,10 +122,12 @@ function Login({ t }) {
         setError('Login error');
         return;
       }
-      const expiration = CalculateExpirationDate();
-      dispatch(updateToken(loginResponse.data.auth_token, expiration));
-      storeToken(loginResponse.data.auth_token, expiration);
+      const expiration = calculateExpirationDate();
+      const token = loginResponse.data.auth_token;
+      dispatch(updateToken({ token, expiration }));
+      storeToken(token, expiration);
       navigate('/info');
+      console.log(loginResponse.data.auth_token, expiration);
     } catch (e) {
       let errorMessage = 'An unknown error occurred';
 
