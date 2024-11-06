@@ -10,12 +10,15 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import postRegistration from '../api/Registration.js';
-import postLogin from '../api/Login.js';
+import { URLS } from '../utils/Urls.js';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateToken } from '../features/token/loginSlice.js';
 import { withTranslation } from 'react-i18next';
+import { Requests } from '../api/Requests.js';
+import axios from '../api/Axios.js';
+import { storeToken } from '../utils/Storage.js';
+import CalculateExpirationDate from '../utils/CalculateExpirationDate.js';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -61,8 +64,7 @@ const LoginContainer = styled(Stack)(({ theme }) => ({
 }));
 
 
-const tokenExpiryDuration = 3600;
-const expirationDate = new Date().getTime() + tokenExpiryDuration * 1000;
+const requests = new Requests(axios);
 
 function Registration({ t }) {
   const navigate = useNavigate();
@@ -133,7 +135,7 @@ function Registration({ t }) {
     };
 
     try {
-      const registerResponse = await postRegistration(userData);
+      const registerResponse = await requests.postRegistration(userData);
       if (registerResponse.status === 409) {
         setError('User already exists');
         return;
@@ -142,7 +144,7 @@ function Registration({ t }) {
         return;
       }
 
-      const loginResponse = await postLogin({
+      const loginResponse = await requests.postLogin({
         email: userData.email,
         password: userData.password,
       });
@@ -150,9 +152,9 @@ function Registration({ t }) {
         setError('Login error');
         return;
       }
-      dispatch(updateToken(loginResponse.data.auth_token));
-      localStorage.setItem('auth_token', loginResponse.data.auth_token);
-      localStorage.setItem('token_expiry', expirationDate);
+      const expiration = CalculateExpirationDate();
+      dispatch(updateToken(loginResponse.data.auth_token, expiration));
+      storeToken(loginResponse.data.auth_token, expiration);
       navigate('/info');
     } catch (e) {
       let errorMessage = 'An unknown error occurred';
@@ -275,7 +277,7 @@ function Registration({ t }) {
               {t('registration_question')}{' '}
               <span>
                 <Link
-                  href="/login"
+                  href={URLS.LOGIN}
                   variant="body2"
                   sx={{ alignSelf: 'center' }}
                 >

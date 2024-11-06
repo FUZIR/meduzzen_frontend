@@ -15,12 +15,13 @@ import store, { persistore } from './stores/store.js';
 import { PersistGate } from 'redux-persist/integration/react';
 import Healthcheck from './pages/Healthcheck.jsx';
 import Registration from './pages/Registration.jsx';
+import Login from './pages/Login.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
+import CheckExpirationDate from './hooks/CheckExpirationDate.jsx';
 
 // eslint-disable-next-line no-unused-vars
 // noinspection ES6UnusedImports
 import i18n from './utils/i18n.js';
-import Login from './pages/Login.jsx';
 
 const router = createBrowserRouter([
   {
@@ -67,7 +68,9 @@ createRoot(document.getElementById('root')).render(
       <CssBaseline />
       <LanguageInitializer />
       <PersistGate loading={null} persistor={persistore}>
-        <RouterProvider router={router} />
+        <RouterProvider router={router}>
+          <CheckExpirationDate />
+        </RouterProvider>
       </PersistGate>
     </Provider>
   </StrictMode>

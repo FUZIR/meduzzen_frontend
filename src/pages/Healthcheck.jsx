@@ -1,11 +1,13 @@
 import { Box, Typography } from '@mui/material';
-import getHealthcheck from '../api/Healthcheck.js';
 import { useEffect, useState } from 'react';
+import { Requests } from '../api/Requests.js';
+import axios from '../api/Axios.js';
 
 function Healthcheck() {
+  const requests = new Requests(axios);
   const [data, setData] = useState(null);
   useEffect(() => {
-    getHealthcheck().then(
+    requests.getHealthcheck().then(
       function(response) {
         setData(response.data);
       },

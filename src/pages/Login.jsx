@@ -15,6 +15,9 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateToken } from '../features/token/loginSlice.js';
 import { withTranslation } from 'react-i18next';
+import { URLS } from '../utils/Urls.js';
+import { storeToken } from '../utils/Storage.js';
+import CalculateExpirationDate from '../utils/CalculateExpirationDate.js';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -59,8 +62,6 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
-const tokenExpiryDuration = 3600;
-const expirationDate = new Date().getTime() + tokenExpiryDuration * 1000;
 
 function Login({ t }) {
   const navigate = useNavigate();
@@ -119,9 +120,9 @@ function Login({ t }) {
         setError('Login error');
         return;
       }
-      dispatch(updateToken(loginResponse.data.auth_token));
-      localStorage.setItem('auth_token', loginResponse.data.auth_token);
-      localStorage.setItem('token_expiry', expirationDate);
+      const expiration = CalculateExpirationDate();
+      dispatch(updateToken(loginResponse.data.auth_token, expiration));
+      storeToken(loginResponse.data.auth_token, expiration);
       navigate('/info');
     } catch (e) {
       let errorMessage = 'An unknown error occurred';
@@ -204,7 +205,7 @@ function Login({ t }) {
               {t('login_question')} {' '}
               <span>
                 <Link
-                  href="/registration"
+                  href={URLS.REGISTER}
                   variant="body2"
                   sx={{ alignSelf: 'center' }}
                 >

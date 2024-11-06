@@ -9,11 +9,8 @@ const loginSlice = createSlice({
   reducers: {
     updateToken: (state, action) => {
       const token = action.payload;
-      const tokenExpiryDuration = 60;
-      const expirationDate = new Date().getTime() + tokenExpiryDuration * 1;
-
       state.token = 'Token '.concat(token);
-      state.expirationDate = expirationDate;
+      state.expirationDate = action.expirationDate;
     },
     deleteToken: (state) => {
       state.token = '';

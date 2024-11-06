@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteToken } from '../features/token/loginSlice.js';
+import { removeToken } from '../utils/Storage.js';
 
 function AccountMenu({ t }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -32,7 +33,7 @@ function AccountMenu({ t }) {
 
   const handleLogout = () => {
     dispatch(deleteToken());
-    localStorage.setItem('auth_token', '');
+    removeToken();
   };
 
   return (
