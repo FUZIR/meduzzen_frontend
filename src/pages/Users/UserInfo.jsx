@@ -1,13 +1,42 @@
-import React from 'react';
-import { Box, Card, CardContent, CardMedia, Container, Typography } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Box, Card, CardContent, CardMedia, CircularProgress, Container, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { usersInfo as users } from '../../utils/UserMock.js';
 import Header from '../../components/Header.jsx';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUserById } from '../../features/users/usersSlice.js';
+import { selectEntities, selectLoading } from '../../stores/selectors.js';
+import { getToken } from '../../utils/Storage.js';
+import { withTranslation } from 'react-i18next';
 
-function UserInfo() {
+function UserInfo({ t }) {
   const { id } = useParams();
   const userId = parseInt(id);
-  const user = users.find(user => user.id === userId);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => {
+    const entities = selectEntities(state);
+    return entities ? entities.find((user) => user.id === userId) : null;
+  });
+  const loading = useSelector(selectLoading);
+
+  useEffect(() => {
+    const token = getToken();
+    if (!user) {
+      dispatch(fetchUserById({ userId, token }));
+    }
+  }, [userId, user, dispatch]);
+
+  if (loading === 'pending') {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+      >
+        <CircularProgress size="3rem" />
+      </Box>
+    );
+  }
   if (!user) {
     return <Typography variant="h6" color={'error'} align={'center'}>User not found</Typography>;
   }
@@ -21,25 +50,30 @@ function UserInfo() {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-        <Card sx={{ maxWidth: 400 }}>
+        <Card sx={{ width: '40vw', maxWidth: 500 }}>
           <CardMedia
             component="img"
             height="300"
-            image={user.photoUrl}
-            alt={`${user.name} ${user.surname}`}
+            image={user.image_path ? user.image_path : 'https://m0.a-shop.com/pub/media/catalog/product/cache/919f1b96b31b31e0fef65e4769f00b6a/9/f/9fc0f561-f5f5-48e2-b954-deff7d93dc5f.jpg'}
+            alt={`${user.username}`}
           />
           <CardContent>
-            <Typography variant="h5" component="div" gutterBottom>
-              {user.name} {user.surname}
-            </Typography>
+
+            {user.first_name && user.last_name ?
+              <Typography variant="h5" component="div" gutterBottom>{user.first_name} {user.last_name}</Typography> :
+              <Typography variant="h5" component="div" gutterBottom>{user.username}</Typography>
+            }
+
+            {user.company ?
+              <Typography variant="body1" color="text.secondary">
+                {t('account_menu_companies')}: {user.company}
+              </Typography> :
+              <Typography variant="body1" color="text.secondary">
+                {t('account_menu_companies')}: unemployed
+              </Typography>
+            }
             <Typography variant="body1" color="text.secondary">
-              Company: {user.company}
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              Position: {user.position}
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              Email: {user.email}
+              {t('login_email')}: {user.email}
             </Typography>
           </CardContent>
         </Card>
@@ -48,4 +82,4 @@ function UserInfo() {
   );
 }
 
-export default UserInfo;
+export default withTranslation()(UserInfo);

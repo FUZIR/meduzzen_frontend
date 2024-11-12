@@ -126,6 +126,13 @@ function Login({ t }) {
       const token = loginResponse.data.auth_token;
       dispatch(updateToken({ token, expiration }));
       storeToken(token, expiration);
+      const getDataResponse = await requests.getUserData(token);
+      if (getDataResponse.status !== 200) {
+        setError('Login error');
+        return;
+      }
+      const userId = getDataResponse.data.id;
+      dispatch(updateToken({ userId, token, expiration }));
       navigate('/info');
     } catch (e) {
       let errorMessage = 'An unknown error occurred';
