@@ -47,14 +47,4 @@ export class Requests {
       },
     });
   }
-
-  patchVisibility(id, token) {
-    return this.axios.patch(`/auth/users/${id}/`, {
-      'visible': false,
-    }, {
-      headers: {
-        'Authorization': `Token ${token}`,
-      },
-    });
-  }
 }

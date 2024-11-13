@@ -6,13 +6,13 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { withTranslation } from 'react-i18next';
 import Header from '../../components/Header.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUsers } from '../../features/users/usersSlice.js';
 import { getToken } from '../../utils/Storage.js';
-import { selectEntities } from '../../stores/selectors.js';
+import { selectUserState } from '../../stores/selectors.js';
+import { fetchUsers } from '../../features/thunks/usersThunks.js';
 
 function Users({ t }) {
   const dispatch = useDispatch();
-  const users = useSelector(selectEntities) || [];
+  const { entities: users = [] } = useSelector(selectUserState);
   const usersPerPage = 6;
   const [page, setPage] = useState(1);
   const startIndex = (page - 1) * usersPerPage;

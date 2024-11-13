@@ -1,27 +1,11 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Requests } from '../../api/Requests.js';
-import axios from '../../api/Axios.js';
-
-const requests = new Requests(axios);
-export const fetchUsers = createAsyncThunk(
-  'users/fetchUsersStatus',
-  async (token) => {
-    const response = await requests.getUsers(token);
-    return response.data;
-  },
-);
-export const fetchUserById = createAsyncThunk(
-  'users/fetchUserByIdStatus',
-  async ({ userId, token }) => {
-    const response = await requests.getUserById(userId, token);
-    return response.data;
-  },
-);
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchUserById, fetchUsers } from '../thunks/usersThunks.js';
 
 const initialState = {
   entities: [],
   loading: 'idle',
   error: null,
+  currentUser: null,
 };
 const usersSlice = createSlice({
     name: 'users',
@@ -50,6 +34,7 @@ const usersSlice = createSlice({
         })
         .addCase(fetchUserById.fulfilled, (state, action) => {
           state.loading = 'succeeded';
+          state.currentUser = action.payload;
           if (!Array.isArray(state.entities)) {
             state.entities = [];
           }

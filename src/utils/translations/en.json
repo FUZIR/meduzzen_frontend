@@ -49,6 +49,9 @@
   "update_info_country": "Country",
   "update_info_image_path": "Image path",
   "update_info_button": "Update",
+  "update_info_error": "Update failed",
+  "update_info_no_fields_error": "No fields were updated.",
+  "update_info_unknown_error": "An unknown error occurred",
   "delete_profile_modal_description": "Your profile will be removed from the user list. Are you sure you want to do this?",
   "delete_profile_modal_yes": "Yes",
   "delete_profile_modal_no": "No"

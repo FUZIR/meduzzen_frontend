@@ -6,6 +6,7 @@ const loginSlice = createSlice({
     userId: null,
     token: '',
     expirationDate: null,
+    isAuthenticated: false,
   },
   reducers: {
     updateToken: (state, action) => {
@@ -13,11 +14,13 @@ const loginSlice = createSlice({
       state.userId = userId;
       state.token = 'Token '.concat(token);
       state.expirationDate = expirationDate;
+      state.isAuthenticated = Boolean(token);
     },
     deleteToken: (state) => {
       state.userId = null;
       state.token = '';
       state.expirationDate = null;
+      state.isAuthenticated = false;
     },
   },
 });

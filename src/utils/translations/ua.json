@@ -49,6 +49,9 @@
   "update_info_country": "Країна",
   "update_info_image_path": "Зображення(URL)",
   "update_info_button": "Оновити",
+  "update_info_error": "Помилка під час оновлення",
+  "update_info_no_fields_error": "Немає значень для оновлення.",
+  "update_info_unknown_error": "Щось пішло не так",
   "delete_profile_modal_description": "Ваш профіль буде видалено зі списку користувачів. Ви впевнені, що хочете цього?",
   "delete_profile_modal_yes": "Так",
   "delete_profile_modal_no": "Ні"

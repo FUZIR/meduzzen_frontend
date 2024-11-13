@@ -16,8 +16,8 @@ import { getToken } from '../utils/Storage.js';
 import { Requests } from '../api/Requests.js';
 import axios from '../api/Axios.js';
 import Header from '../components/Header.jsx';
-import { fetchUserById } from '../features/users/usersSlice.js';
-import { selectEntities, selectUserId } from '../stores/selectors.js';
+import { selectUserId, selectUserState } from '../stores/selectors.js';
+import { fetchUserById } from '../features/thunks/usersThunks.js';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -25,7 +25,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
   alignSelf: 'center',
   width: '100%',
   padding: theme.spacing(4),
-  gap: theme.spacing(2),
+  gap: theme.spacing(0),
   margin: 'auto',
   boxShadow:
     'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
@@ -41,9 +41,9 @@ const Card = styled(MuiCard)(({ theme }) => ({
 const UpdateContainer = styled(Stack)(({ theme }) => ({
   height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
   minHeight: '100%',
-  padding: theme.spacing(2),
+  padding: theme.spacing(1),
   [theme.breakpoints.up('sm')]: {
-    padding: theme.spacing(4),
+    padding: theme.spacing(3),
   },
   '&::before': {
     content: '""',
@@ -64,7 +64,7 @@ const UpdateContainer = styled(Stack)(({ theme }) => ({
 function UpdateInfo({ t }) {
   const navigate = useNavigate();
   const userId = useSelector(selectUserId);
-  const currentUser = useSelector(state => selectEntities(state).find(user => user.id === userId));
+  const { currentUser } = useSelector(selectUserState);
   const [user, setUser] = React.useState({
     first_name: currentUser?.first_name || '',
     last_name: currentUser?.last_name || '',
@@ -98,20 +98,20 @@ function UpdateInfo({ t }) {
     });
 
     if (Object.keys(updatedFields).length === 0) {
-      setError('No fields were updated.');
+      setError(t('update_info_no_fields_error'));
       return;
     }
 
     try {
       const updateResponse = await requests.patchUserInfo(userId, updatedFields, getToken());
       if (updateResponse.status !== 200) {
-        setError('Update error');
+        setError(t('update_info_error'));
         return;
       }
       dispatch(fetchUserById({ userId, token: getToken() }));
       navigate('/profile');
     } catch (e) {
-      setError('An unknown error occurred');
+      setError(t('update_info_unknown_error'));
     }
   };
 
@@ -123,7 +123,7 @@ function UpdateInfo({ t }) {
         <Card variant="outlined">
           <Typography
             component="h1"
-            variant="h4"
+            variant="h5"
             sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
           >
             {t('update_info_header')}
@@ -164,6 +164,7 @@ function UpdateInfo({ t }) {
               <TextField
                 size={'small'}
                 fullWidth
+                required
                 id="username"
                 name="username"
                 value={user.username}
@@ -216,10 +217,12 @@ function UpdateInfo({ t }) {
             </Button>
           </Box>
 
-          {error && (
-            <Typography color="error" sx={{ mt: 2 }}>
-              {error}
-            </Typography>
+          {error !== '' && (
+            <>
+              <Typography color="error" mt={1}>
+                {error}
+              </Typography>
+            </>
           )}
         </Card>
       </UpdateContainer>

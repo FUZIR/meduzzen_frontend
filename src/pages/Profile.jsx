@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Avatar, Box, Button, Card, CardContent, CircularProgress, Container, Typography } from '@mui/material';
 import Header from '../components/Header.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectEntities, selectLoading, selectUserId } from '../stores/selectors.js';
-import { fetchUserById } from '../features/users/usersSlice.js';
+import { selectUserId, selectUserState } from '../stores/selectors.js';
 import { getToken } from '../utils/Storage.js';
 import { parseDate } from '../utils/dateParser.js';
 import { withTranslation } from 'react-i18next';
@@ -11,17 +10,17 @@ import { Link } from 'react-router-dom';
 import DeleteProfileModal from '../components/DeleteProfileModal.jsx';
 import { Requests } from '../api/Requests.js';
 import axios from '../api/Axios.js';
+import { fetchUserById } from '../features/thunks/usersThunks.js';
 
 function Profile({ t }) {
   const requests = new Requests(axios);
   const dispatch = useDispatch();
   const userId = parseInt(useSelector(selectUserId));
-  const user = useSelector(state => selectEntities(state)?.find(user => user.id === userId));
-  const loading = useSelector(selectLoading);
+  const { currentUser: user, loading: loading } = useSelector(selectUserState);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const onDeleteProfile = () => {
-    requests.patchVisibility(userId, getToken());
+    requests.patchUserInfo(userId, { 'visible': false }, getToken());
     setModalIsOpen(false);
   };
 
@@ -53,8 +52,9 @@ function Profile({ t }) {
         <Avatar sx={{ width: 100, height: 100 }} src={user.image_path} alt="User Avatar">{user.first_name[0]}</Avatar>
 
         {user.first_name && user.last_name ?
-          <Typography variant="h4" mt={2}>{user.first_name} {user.last_name}</Typography> :
-          <Typography variant="h4" mt={2}>{user.username}</Typography>}
+          (<Typography variant="h4" mt={2}>{user.first_name} {user.last_name}</Typography>) :
+          (<Typography variant="h4" mt={2}>{user.username}</Typography>)
+        }
         <Typography variant="subtitle1" color="textSecondary">{user.email}</Typography>
       </Box>
 

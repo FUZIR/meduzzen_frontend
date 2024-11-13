@@ -3,25 +3,20 @@ import { Box, Card, CardContent, CardMedia, CircularProgress, Container, Typogra
 import { useParams } from 'react-router-dom';
 import Header from '../../components/Header.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUserById } from '../../features/users/usersSlice.js';
-import { selectEntities, selectLoading } from '../../stores/selectors.js';
+import { selectUserState } from '../../stores/selectors.js';
 import { getToken } from '../../utils/Storage.js';
 import { withTranslation } from 'react-i18next';
+import { fetchUserById } from '../../features/thunks/usersThunks.js';
 
 function UserInfo({ t }) {
   const { id } = useParams();
   const userId = parseInt(id);
   const dispatch = useDispatch();
-  const user = useSelector((state) => {
-    const entities = selectEntities(state);
-    return entities ? entities.find((user) => user.id === userId) : null;
-  });
-  const loading = useSelector(selectLoading);
+  const { currentUser: user, loading: loading } = useSelector(selectUserState);
 
   useEffect(() => {
-    const token = getToken();
     if (!user) {
-      dispatch(fetchUserById({ userId, token }));
+      dispatch(fetchUserById({ userId, token: getToken() }));
     }
   }, [userId, user, dispatch]);
 
