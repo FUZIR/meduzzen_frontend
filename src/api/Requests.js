@@ -1,7 +1,28 @@
+import { getToken } from '../utils/Storage.js';
+
 export class Requests {
 
   constructor(axiosInstance) {
     this.axios = axiosInstance;
+    this.token = getToken();
+    this.headers = {};
+  }
+
+  sendRequest(method, url, data = null) {
+    const config = {
+      method,
+      url,
+      headers: this.headers,
+    };
+
+    if (this.token) {
+      config.headers['Authorization'] = `Token ${this.token}`;
+    }
+    if (data) {
+      config.data = data;
+    }
+
+    return this.axios(config);
   }
 
   getHealthcheck() {
@@ -9,42 +30,26 @@ export class Requests {
   }
 
   postRegistration(data) {
-    return this.axios.post('/auth/users/', data);
+    return this.sendRequest('post', '/auth/users/', data);
   }
 
   postLogin(data) {
-    return this.axios.post('/auth/token/login/', data);
+    return this.sendRequest('post', '/auth/token/login/', data);
   }
 
-  getUserData(token) {
-    return this.axios.get('/auth/users/me/', {
-      headers: {
-        'Authorization': `Token ${token}`,
-      },
-    });
+  getUserData() {
+    return this.sendRequest('get', '/auth/users/me/');
   }
 
-  getUsers(token) {
-    return this.axios.get('/auth/users/', {
-      headers: {
-        'Authorization': `Token ${token}`,
-      },
-    });
+  getUsers() {
+    return this.sendRequest('get', '/auth/users/');
   }
 
-  getUserById(id, token) {
-    return this.axios.get(`/auth/users/${id}/`, {
-      headers: {
-        'Authorization': `Token ${token}`,
-      },
-    });
+  getUserById(id) {
+    return this.sendRequest('get', `/auth/users/${id}/`);
   }
 
-  patchUserInfo(id, data, token) {
-    return this.axios.patch(`/auth/users/${id}/`, data, {
-      headers: {
-        'Authorization': `Token ${token}`,
-      },
-    });
+  patchUserInfo(id, data) {
+    return this.sendRequest('patch', `/auth/users/${id}/`, data);
   }
 }

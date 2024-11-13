@@ -154,9 +154,10 @@ function Registration({ t }) {
       }
       const token = loginResponse.data.auth_token;
       const expiration = calculateExpirationDate();
+      requests.token = token;
       dispatch(updateToken(token, expiration));
       storeToken(token, expiration);
-      const getDataResponse = await requests.getUserData(token);
+      const getDataResponse = await requests.getUserData();
       if (getDataResponse.status !== 200) {
         setError('Login error');
         return;

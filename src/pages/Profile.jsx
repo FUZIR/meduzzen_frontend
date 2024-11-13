@@ -20,7 +20,7 @@ function Profile({ t }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const onDeleteProfile = () => {
-    requests.patchUserInfo(userId, { 'visible': false }, getToken());
+    requests.patchUserInfo(userId, { 'visible': false });
     setModalIsOpen(false);
   };
 
