@@ -152,9 +152,18 @@ function Registration({ t }) {
         setError('Login error');
         return;
       }
+      const token = loginResponse.data.auth_token;
       const expiration = calculateExpirationDate();
-      dispatch(updateToken(loginResponse.data.auth_token, expiration));
-      storeToken(loginResponse.data.auth_token, expiration);
+      requests.token = token;
+      dispatch(updateToken(token, expiration));
+      storeToken(token, expiration);
+      const getDataResponse = await requests.getUserData();
+      if (getDataResponse.status !== 200) {
+        setError('Login error');
+        return;
+      }
+      const userId = getDataResponse.data.id;
+      dispatch(updateToken({ userId, token, expiration }));
       navigate('/info');
     } catch (e) {
       let errorMessage = 'An unknown error occurred';

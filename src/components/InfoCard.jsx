@@ -11,7 +11,7 @@ function InfoCard({ id, title, subtitle, imageUrl, description, detailsUrl, t })
       marginBottom: 2,
       transition: 'transform 0.2s',
       width: '15vw',
-      height: '250px',
+      height: '35vh',
       position: 'relative',
       '&:hover': {
         transform: 'scale(1.02)', boxShadow: '0 4px 8px rgba(0,0,0,0.2)',

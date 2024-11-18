@@ -12,6 +12,7 @@ import HowToRegIcon from '@mui/icons-material/HowToReg';
 import PeopleIcon from '@mui/icons-material/People';
 import BusinessIcon from '@mui/icons-material/Business';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -84,15 +85,22 @@ function AccountMenu({ t }) {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        {isAuthenticated ? (
-          <MenuItem onClick={handleLogout}>
-            <LogoutIcon>
-              <PeopleIcon fontSize="small" />
-            </LogoutIcon>
-            {t('account_menu_logout')}
-          </MenuItem>
-        ) : (
-          [
+        {isAuthenticated ? ([
+            <MenuItem key="logout" onClick={handleLogout}>
+              <LogoutIcon>
+                <PeopleIcon fontSize="small" />
+              </LogoutIcon>
+              {t('account_menu_logout')}
+            </MenuItem>,
+            <MenuItem key="profile" onClick={handleClose} component={Link} to={URLS.PROFILE}>
+              <ListItemIcon>
+                <AccountBoxIcon fontSize="small" />
+              </ListItemIcon>
+              {t('account_menu_profile')}
+            </MenuItem>,
+          ])
+          :
+          ([
             <MenuItem key="login" onClick={handleClose} component={Link} to={URLS.LOGIN}>
               <LoginIcon>
                 <PeopleIcon fontSize="small" />
@@ -105,8 +113,8 @@ function AccountMenu({ t }) {
               </HowToRegIcon>
               {t('account_menu_registration')}
             </MenuItem>,
-          ]
-        )}
+          ])
+        }
 
         <Divider />
         <MenuItem onClick={handleClose} component={Link} to={URLS.USERS}>

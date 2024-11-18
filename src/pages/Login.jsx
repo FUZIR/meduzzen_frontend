@@ -124,12 +124,20 @@ function Login({ t }) {
       }
       const expiration = calculateExpirationDate();
       const token = loginResponse.data.auth_token;
+      requests.token = token;
       dispatch(updateToken({ token, expiration }));
       storeToken(token, expiration);
+      const getDataResponse = await requests.getUserData();
+      if (getDataResponse.status !== 200) {
+        setError('Login error');
+        return;
+      }
+      const userId = getDataResponse.data.id;
+      dispatch(updateToken({ userId, token, expiration }));
       navigate('/info');
     } catch (e) {
       let errorMessage = 'An unknown error occurred';
-
+      console.log(e);
       if (e.response) {
         const responseData = e.response.data;
         if (responseData.username) {

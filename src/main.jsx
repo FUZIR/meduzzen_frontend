@@ -22,6 +22,8 @@ import TokenExpirationWrapper from './hooks/TokenExpirationWrapper.jsx';
 // eslint-disable-next-line no-unused-vars
 // noinspection ES6UnusedImports
 import i18n from './utils/i18n.js';
+import Profile from './pages/Profile.jsx';
+import UpdateInfo from './pages/UpdateInfo.jsx';
 
 const router = createBrowserRouter([
   {
@@ -51,6 +53,14 @@ const router = createBrowserRouter([
   {
     path: '/companies/:id',
     element: <PrivateRoute element={<CompanyInfo />} />,
+  },
+  {
+    path: '/profile',
+    element: <PrivateRoute element={<Profile />} />,
+  },
+  {
+    path: '/profile/update_info',
+    element: <PrivateRoute element={<UpdateInfo />} />,
   },
   {
     path: '/registration',
