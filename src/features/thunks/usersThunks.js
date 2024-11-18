@@ -5,15 +5,15 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 const requests = new Requests(axios);
 export const fetchUsers = createAsyncThunk(
   'users/fetchUsersStatus',
-  async (token) => {
-    const response = await requests.getUsers(token);
+  async () => {
+    const response = await requests.getUsers();
     return response.data;
   },
 );
 export const fetchUserById = createAsyncThunk(
   'users/fetchUserByIdStatus',
-  async ({ userId, token }) => {
-    const response = await requests.getUserById(userId, token);
+  async ({ userId }) => {
+    const response = await requests.getUserById(userId);
     return response.data;
   },
 );

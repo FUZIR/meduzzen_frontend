@@ -103,7 +103,7 @@ function UpdateInfo({ t }) {
     }
 
     try {
-      const updateResponse = await requests.patchUserInfo(userId, updatedFields, getToken());
+      const updateResponse = await requests.patchUserInfo(userId, updatedFields);
       if (updateResponse.status !== 200) {
         setError(t('update_info_error'));
         return;
