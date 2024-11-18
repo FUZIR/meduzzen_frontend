@@ -28,7 +28,7 @@ function Profile({ t }) {
   const handleCloseModal = () => setModalIsOpen(false);
 
   useEffect(() => {
-    dispatch(fetchUserById({ userId: userId, token: getToken() }));
+    dispatch(fetchUserById({ userId: userId }));
   }, [dispatch, userId]);
 
   if (loading === 'pending' || !user) {

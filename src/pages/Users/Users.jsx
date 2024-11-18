@@ -20,7 +20,7 @@ function Users({ t }) {
   const usersToShow = users.slice(startIndex, endIndex);
   const pageCount = Math.ceil(users.length / usersPerPage);
   useEffect(() => {
-    dispatch(fetchUsers(getToken()));
+    dispatch(fetchUsers());
   }, [dispatch]);
 
   if (!users || users.length === 0) {

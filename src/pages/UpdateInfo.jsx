@@ -108,7 +108,7 @@ function UpdateInfo({ t }) {
         setError(t('update_info_error'));
         return;
       }
-      dispatch(fetchUserById({ userId, token: getToken() }));
+      dispatch(fetchUserById({ userId }));
       navigate('/profile');
     } catch (e) {
       setError(t('update_info_unknown_error'));

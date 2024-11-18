@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import Header from '../../components/Header.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserState } from '../../stores/selectors.js';
-import { getToken } from '../../utils/Storage.js';
 import { withTranslation } from 'react-i18next';
 import { fetchUserById } from '../../features/thunks/usersThunks.js';
 
@@ -16,7 +15,7 @@ function UserInfo({ t }) {
 
   useEffect(() => {
     if (!user) {
-      dispatch(fetchUserById({ userId, token: getToken() }));
+      dispatch(fetchUserById({ userId }));
     }
   }, [userId, user, dispatch]);
 
