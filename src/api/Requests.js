@@ -30,7 +30,7 @@ export class Requests {
   }
 
   postRegistration(data) {
-    return this.sendRequest('post', '/auth/users/', data);
+    return this.sendRequest('post', '/api/users/', data);
   }
 
   postLogin(data) {
@@ -38,18 +38,42 @@ export class Requests {
   }
 
   getUserData() {
-    return this.sendRequest('get', '/auth/users/me/');
+    return this.sendRequest('get', '/api/users/me/');
   }
 
   getUsers() {
-    return this.sendRequest('get', '/auth/users/');
+    return this.sendRequest('get', '/api/users/');
   }
 
   getUserById(id) {
-    return this.sendRequest('get', `/auth/users/${id}/`);
+    return this.sendRequest('get', `/api/users/${id}/`);
   }
 
   patchUserInfo(id, data) {
-    return this.sendRequest('patch', `/auth/users/${id}/`, data);
+    return this.sendRequest('patch', `/api/users/${id}/`, data);
+  }
+
+  getCompanies() {
+    return this.sendRequest('get', '/api/companies/');
+  }
+
+  getCompanyById(id) {
+    return this.sendRequest('get', `/api/companies/${id}/`);
+  }
+
+  leaveCompany() {
+    return this.sendRequest('post', '/api/users/leave/');
+  }
+
+  deleteCompany(id) {
+    return this.sendRequest('delete', `/api/companies/${id}/`);
+  }
+
+  patchCompanyInfo(id, data) {
+    return this.sendRequest('patch', `/api/companies/${id}/`, data);
+  }
+
+  createCompany(data) {
+    return this.sendRequest('post', '/api/companies/', data);
   }
 }

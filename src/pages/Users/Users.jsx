@@ -6,7 +6,6 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { withTranslation } from 'react-i18next';
 import Header from '../../components/Header.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { getToken } from '../../utils/Storage.js';
 import { selectUserState } from '../../stores/selectors.js';
 import { fetchUsers } from '../../features/thunks/usersThunks.js';
 
@@ -52,7 +51,7 @@ function Users({ t }) {
                         title={user.first_name && user.last_name ? user.first_name : user.username}
                         subtitle={user.first_name && user.last_name ? user.last_name : ''}
                         imageUrl={user.image_path}
-                        description={user.company}
+                        description={user.description}
                         key={user.id}
               />
             ))}
