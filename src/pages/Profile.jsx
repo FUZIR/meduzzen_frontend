@@ -2,33 +2,51 @@ import React, { useEffect, useState } from 'react';
 import { Avatar, Box, Button, Card, CardContent, CircularProgress, Container, Typography } from '@mui/material';
 import Header from '../components/Header.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUserId, selectUserState } from '../stores/selectors.js';
-import { getToken } from '../utils/Storage.js';
+import { selectCompaniesState, selectUserId, selectUserState } from '../stores/selectors.js';
 import { parseDate } from '../utils/dateParser.js';
 import { withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import DeleteProfileModal from '../components/DeleteProfileModal.jsx';
+import DeleteProfileModal from '../components/modals/DeleteProfileModal.jsx';
 import { Requests } from '../api/Requests.js';
 import axios from '../api/Axios.js';
 import { fetchUserById } from '../features/thunks/usersThunks.js';
+import LeaveCompanyModal from '../components/modals/LeaveCompanyModal.jsx';
+import { fetchCompanies } from '../features/thunks/companiesThunks.js';
+import CreateCompanyModal from '../components/modals/CreateCompanyModal.jsx';
 
 function Profile({ t }) {
   const requests = new Requests(axios);
   const dispatch = useDispatch();
   const userId = parseInt(useSelector(selectUserId));
+  const { entities: companies } = useSelector(selectCompaniesState);
   const { currentUser: user, loading: loading } = useSelector(selectUserState);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [createCompanyModalIsOpen, setCreateCompanyModalIsOpen] = useState(false);
+  const [deleteProfileModalIsOpen, setDeleteProfileModalIsOpen] = useState(false);
+  const [leaveCompanyModalIsOpen, setLeaveCompanyModalIsOpen] = useState(false);
+  const owned_companies = companies.filter((company) => company.owner === userId);
 
   const onDeleteProfile = () => {
     requests.patchUserInfo(userId, { 'visible': false });
-    setModalIsOpen(false);
+    setDeleteProfileModalIsOpen(false);
   };
 
-  const handleOpenModal = () => setModalIsOpen(true);
-  const handleCloseModal = () => setModalIsOpen(false);
+  const onLeaveCompany = () => {
+    requests.leaveCompany();
+    setLeaveCompanyModalIsOpen(false);
+  };
+
+  const handleOpenCreateCompanyModal = () => setCreateCompanyModalIsOpen(true);
+  const handleCloseCreateCompanyModal = () => setCreateCompanyModalIsOpen(false);
+
+  const handleOpenDeleteProfileModal = () => setDeleteProfileModalIsOpen(true);
+  const handleCloseDeleteProfileModal = () => setDeleteProfileModalIsOpen(false);
+
+  const handleOpenLeaveCompanyModal = () => setLeaveCompanyModalIsOpen(true);
+  const handleCloseLeaveCompanyModal = () => setLeaveCompanyModalIsOpen(false);
 
   useEffect(() => {
     dispatch(fetchUserById({ userId: userId }));
+    dispatch(fetchCompanies());
   }, [dispatch, userId]);
 
   if (loading === 'pending' || !user) {
@@ -47,7 +65,11 @@ function Profile({ t }) {
   return (
     <Container maxWidth="md">
       <Header />
-      <DeleteProfileModal isOpen={modalIsOpen} handleClose={handleCloseModal} onDeleteProfile={onDeleteProfile} />
+      <CreateCompanyModal isOpen={createCompanyModalIsOpen} onClose={handleCloseCreateCompanyModal} />
+      <DeleteProfileModal isOpen={deleteProfileModalIsOpen} handleClose={handleCloseDeleteProfileModal}
+                          onDeleteProfile={onDeleteProfile} />
+      <LeaveCompanyModal isOpen={leaveCompanyModalIsOpen} handleClose={handleCloseLeaveCompanyModal}
+                         onLeaveCompany={onLeaveCompany} />
       <Box display="flex" alignItems="center" flexDirection="column" marginTop={4}>
         <Avatar sx={{ width: 100, height: 100 }} src={user.image_path} alt="User Avatar">{user.first_name[0]}</Avatar>
 
@@ -63,18 +85,34 @@ function Profile({ t }) {
         <Card sx={{ height: '30vh' }}>
           <CardContent>
             <Typography variant="body1">{t('profile_username')} {user.username}</Typography>
-            <Typography variant="body1">{t('profile_description')} {user.description}</Typography>
+            {user.description && (
+              <Typography variant="body1">{t('profile_description')} {user.description}</Typography>)
+            }
             <Typography variant="body1">{t('profile_register_date')} {parseDate(user.created_at)}</Typography>
-            {user.country ? (<Typography variant="body1">{t('profile_country')} {user.country} </Typography>) : <></>}
-
+            {user.country && (<Typography variant="body1">{t('profile_country')} {user.country} </Typography>)}
+            {user.company && (
+              <Typography variant="body1">{t('profile_company')} {user.company.name} </Typography>)
+            }
+            {owned_companies.length !== 0 && (
+              <Typography variant="body1">
+                {t('profile_owned_companies')}: {owned_companies.map((company) => company.name).join(', ')}
+              </Typography>)
+            }
           </CardContent>
         </Card>
         <CardContent>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
             <Button variant="contained" color="primary" sx={{ mt: 1 }}
                     component={Link} to={'/profile/update_info'}>{t('profile_change_button')}</Button>
+            <Button variant="contained" color="primary" sx={{ mt: 1 }}
+                    onClick={handleOpenCreateCompanyModal}>{t('profile_create_company_button')}</Button>
             <Button variant="outlined" color="error" sx={{ mt: 1 }}
-                    onClick={handleOpenModal}>{t('profile_delete_button')}</Button>
+                    onClick={handleOpenDeleteProfileModal}>{t('profile_delete_button')}</Button>
+            {user.company &&
+              (<Button variant="outlined" color="error" sx={{ mt: 1 }}
+                       onClick={handleOpenLeaveCompanyModal}>{t('company_leave_button')}</Button>)
+            }
+
           </Box>
         </CardContent>
       </Box>

@@ -1,16 +1,16 @@
 import { Avatar, Box, Button, Typography } from '@mui/material';
 import { withTranslation } from 'react-i18next';
 
-function InfoCard({ id, title, subtitle, imageUrl, description, detailsUrl, t }) {
+function InfoCard({ id, title, subtitle, imageUrl, description, detailsUrl, isUserCompany, t }) {
   return (
     <Box sx={{
       padding: 2,
-      border: '1px solid #ddd',
+      border: isUserCompany ? '2px solid #007bff' : '1px solid #ddd',
       borderRadius: 2,
       backgroundColor: '#f9f9f9',
       marginBottom: 2,
       transition: 'transform 0.2s',
-      width: '15vw',
+      width: '16vw',
       height: '35vh',
       position: 'relative',
       '&:hover': {

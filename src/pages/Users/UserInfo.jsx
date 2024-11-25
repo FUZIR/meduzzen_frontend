@@ -60,7 +60,7 @@ function UserInfo({ t }) {
 
             {user.company ?
               <Typography variant="body1" color="text.secondary">
-                {t('account_menu_companies')}: {user.company}
+                {t('account_menu_companies')}: {user.company.name}
               </Typography> :
               <Typography variant="body1" color="text.secondary">
                 {t('account_menu_companies')}: unemployed
