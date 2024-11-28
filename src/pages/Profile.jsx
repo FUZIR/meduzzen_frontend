@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectCompaniesState, selectUserId, selectUserState } from '../stores/selectors.js';
 import { parseDate } from '../utils/dateParser.js';
 import { withTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import DeleteProfileModal from '../components/modals/DeleteProfileModal.jsx';
 import { Requests } from '../api/Requests.js';
 import axios from '../api/Axios.js';
@@ -13,9 +13,11 @@ import { fetchUserById } from '../features/thunks/usersThunks.js';
 import LeaveCompanyModal from '../components/modals/LeaveCompanyModal.jsx';
 import { fetchCompanies } from '../features/thunks/companiesThunks.js';
 import CreateCompanyModal from '../components/modals/CreateCompanyModal.jsx';
+import { getToken } from '../utils/Storage.js';
 
 function Profile({ t }) {
   const requests = new Requests(axios);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const userId = parseInt(useSelector(selectUserId));
   const { entities: companies } = useSelector(selectCompaniesState);
@@ -45,8 +47,13 @@ function Profile({ t }) {
   const handleCloseLeaveCompanyModal = () => setLeaveCompanyModalIsOpen(false);
 
   useEffect(() => {
-    dispatch(fetchUserById({ userId: userId }));
-    dispatch(fetchCompanies());
+    const token = getToken();
+    if (!token) {
+      navigate('/login');
+    } else {
+      dispatch(fetchUserById({ userId }));
+      dispatch(fetchCompanies());
+    }
   }, [dispatch, userId]);
 
   if (loading === 'pending' || !user) {

@@ -24,6 +24,9 @@ import TokenExpirationWrapper from './hooks/TokenExpirationWrapper.jsx';
 import i18n from './utils/i18n.js';
 import Profile from './pages/Profile.jsx';
 import UpdateInfo from './pages/UpdateInfo.jsx';
+import Requests from './pages/UserRequests.jsx';
+import Invitations from './pages/Invitations.jsx';
+import CompanyDetails from './pages/CompanyDetails.jsx';
 
 const router = createBrowserRouter([
   {
@@ -61,6 +64,18 @@ const router = createBrowserRouter([
   {
     path: '/profile/update_info',
     element: <PrivateRoute element={<UpdateInfo />} />,
+  },
+  {
+    path: '/requests',
+    element: <PrivateRoute element={<Requests />} />,
+  },
+  {
+    path: '/invitations',
+    element: <PrivateRoute element={<Invitations />} />,
+  },
+  {
+    path: '/companies/:id/details',
+    element: <PrivateRoute element={<CompanyDetails />} />,
   },
   {
     path: '/registration',

@@ -4,4 +4,6 @@ export const URLS = {
   USERS: '/users',
   COMPANIES: '/companies',
   PROFILE: '/profile',
+  REQUESTS: '/requests',
+  INVITATIONS: '/invitations',
 };
