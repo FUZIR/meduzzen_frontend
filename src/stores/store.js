@@ -7,6 +7,8 @@ import storage from 'redux-persist/es/storage';
 import { persistReducer as persist, persistStore } from 'redux-persist';
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE } from 'redux-persist/es/constants';
 import { thunk } from 'redux-thunk';
+import invitationReducer from '../features/invitation/invitationSlice.js';
+import requestReducer from '../features/request/requestSlice.js';
 
 const persistConfig = {
   key: 'root',
@@ -21,6 +23,8 @@ const store = configureStore({
     login: loginPersistReducer,
     users: usersReducer,
     companies: companiesReducer,
+    invitations: invitationReducer,
+    requests: requestReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

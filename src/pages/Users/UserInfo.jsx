@@ -1,22 +1,44 @@
-import React, { useEffect } from 'react';
-import { Box, Card, CardContent, CardMedia, CircularProgress, Container, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  CircularProgress,
+  Container,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from '@mui/material';
 import { useParams } from 'react-router-dom';
 import Header from '../../components/Header.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUserState } from '../../stores/selectors.js';
+import { selectCompaniesState, selectUserId, selectUserState } from '../../stores/selectors.js';
 import { withTranslation } from 'react-i18next';
 import { fetchUserById } from '../../features/thunks/usersThunks.js';
+import { fetchCompanies } from '../../features/thunks/companiesThunks.js';
+import axios from '../../api/Axios.js';
+import { Requests } from '../../api/Requests.js';
 
 function UserInfo({ t }) {
   const { id } = useParams();
   const userId = parseInt(id);
+  const requests = new Requests(axios);
   const dispatch = useDispatch();
   const { currentUser: user, loading: loading } = useSelector(selectUserState);
-
+  const { entities: allCompanies } = useSelector(selectCompaniesState);
+  const currentUserId = useSelector(selectUserId);
+  const companies = allCompanies.filter((company) => company.owner === currentUserId);
+  const [selectedCompany, setSelectedCompany] = useState('');
+  const [isInviteSend, setIsInviteSend] = useState(false);
   useEffect(() => {
     if (!user) {
       dispatch(fetchUserById({ userId }));
     }
+    dispatch(fetchCompanies());
   }, [userId, user, dispatch]);
 
   if (loading === 'pending') {
@@ -34,6 +56,11 @@ function UserInfo({ t }) {
   if (!user) {
     return <Typography variant="h6" color={'error'} align={'center'}>User not found</Typography>;
   }
+
+  const handleInvite = async () => {
+    await requests.createInvitation({ user: userId, company: selectedCompany });
+    setIsInviteSend(true);
+  };
   return (
     <Box>
       <Header />
@@ -69,6 +96,49 @@ function UserInfo({ t }) {
             <Typography variant="body1" color="text.secondary">
               {t('login_email')}: {user.email}
             </Typography>
+            <Box sx={{ mt: 3 }}>
+              <FormControl fullWidth>
+                <InputLabel id="company-selector-label">{t('select_company')}</InputLabel>
+                <Select
+                  labelId="company-selector-label"
+                  value={selectedCompany}
+                  onChange={(e) => setSelectedCompany(e.target.value)}
+                  label={t('select_company')}
+                >
+                  {companies.length > 0 ? (
+                    companies.map((company) => (
+                      <MenuItem key={company.id} value={company.id}>
+                        {company.name}
+                      </MenuItem>
+                    ))
+                  ) : (
+                    <MenuItem disabled>{t('no_companies_available')}</MenuItem>
+                  )}
+                </Select>
+              </FormControl>
+              {!isInviteSend ? (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleInvite}
+                  disabled={!selectedCompany}
+                  sx={{ mt: 2 }}
+                >
+                  {t('invite_user_button')}
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleInvite}
+                  disabled
+                  sx={{ mt: 2 }}
+                >
+                  {t('invite_user_button_sent')}
+                </Button>
+              )}
+
+            </Box>
           </CardContent>
         </Card>
       </Container>

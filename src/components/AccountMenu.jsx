@@ -13,6 +13,8 @@ import PeopleIcon from '@mui/icons-material/People';
 import BusinessIcon from '@mui/icons-material/Business';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import AssistantIcon from '@mui/icons-material/Assistant';
+import ArchiveIcon from '@mui/icons-material/Archive';
 import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -97,6 +99,18 @@ function AccountMenu({ t }) {
                 <AccountBoxIcon fontSize="small" />
               </ListItemIcon>
               {t('account_menu_profile')}
+            </MenuItem>,
+            <MenuItem key="invitations" onClick={handleClose} component={Link} to={URLS.INVITATIONS}>
+              <ListItemIcon>
+                <AssistantIcon fontSize="small" />
+              </ListItemIcon>
+              {t('account_menu_invitations')}
+            </MenuItem>,
+            <MenuItem key="requests" onClick={handleClose} component={Link} to={URLS.REQUESTS}>
+              <ListItemIcon>
+                <ArchiveIcon fontSize="small" />
+              </ListItemIcon>
+              {t('account_menu_requests')}
             </MenuItem>,
           ])
           :

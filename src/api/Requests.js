@@ -9,14 +9,15 @@ export class Requests {
   }
 
   sendRequest(method, url, data = null) {
+    const token = getToken();
     const config = {
       method,
       url,
       headers: this.headers,
     };
 
-    if (this.token) {
-      config.headers['Authorization'] = `Token ${this.token}`;
+    if (token) {
+      config.headers['Authorization'] = `Token ${token}`;
     }
     if (data) {
       config.data = data;
@@ -65,6 +66,10 @@ export class Requests {
     return this.sendRequest('post', '/api/users/leave/');
   }
 
+  removeUser(data) {
+    return this.sendRequest('post', '/api/companies/remove-user/', data);
+  }
+
   deleteCompany(id) {
     return this.sendRequest('delete', `/api/companies/${id}/`);
   }
@@ -75,5 +80,55 @@ export class Requests {
 
   createCompany(data) {
     return this.sendRequest('post', '/api/companies/', data);
+  }
+
+  //   INVITATIONS
+  createInvitation(data) {
+    return this.sendRequest('post', '/api/invitations/', data);
+  }
+
+  invitationAccept(data) {
+    return this.sendRequest('patch', '/api/invitations/invitation-accept/', data);
+  }
+
+  invitationReject(data) {
+    return this.sendRequest('patch', '/api/invitations/invitation-reject/', data);
+  }
+
+  invitationRevoke(data) {
+    return this.sendRequest('patch', '/api/invitations/invitation-revoke/', data);
+  }
+
+  getCompanyInvitations(companyId) {
+    return this.sendRequest('get', `/api/invitations/get-invitations/?company=${companyId}`);
+  }
+
+  getUserInvitations() {
+    return this.sendRequest('get', '/api/invitations/');
+  }
+
+  //    REQUESTS
+  createRequests(data) {
+    return this.sendRequest('post', '/api/requests/', data);
+  }
+
+  requestAccept(data) {
+    return this.sendRequest('patch', '/api/requests/request-accept/', data);
+  }
+
+  requestReject(data) {
+    return this.sendRequest('patch', '/api/requests/request-reject/', data);
+  }
+
+  requestsCancel(data) {
+    return this.sendRequest('patch', '/api/requests/request-cancel/', data);
+  }
+
+  getCompanyRequests(companyId) {
+    return this.sendRequest('get', `/api/requests/request-list/?company=${companyId}`);
+  }
+
+  getUserRequests() {
+    return this.sendRequest('get', '/api/requests/');
   }
 }
