@@ -131,4 +131,16 @@ export class Requests {
   getUserRequests() {
     return this.sendRequest('get', '/api/requests/');
   }
+
+  appointAdmin(data) {
+    return this.sendRequest('post', '/api/companies/appoint-admin/', data);
+  }
+
+  removeAdmin(data) {
+    return this.sendRequest('post', '/api/companies/remove-admin/', data);
+  }
+
+  getAdmins(companyId) {
+    return this.sendRequest('get', `/api/companies/admins/?company=${companyId}`);
+  }
 }

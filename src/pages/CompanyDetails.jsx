@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Avatar, Box, Button, Card, CardActions, CardContent, Stack, Typography } from '@mui/material';
 import Header from '../components/Header.jsx';
 import CompanyRequestCard from '../components/CompanyRequestCard.jsx';
@@ -14,6 +14,7 @@ import { fetchCompanyInvitations } from '../features/thunks/invitationsThunks.js
 import { resetInvitationState } from '../features/invitation/invitationSlice.js';
 import { fetchCompanyById } from '../features/thunks/companiesThunks.js';
 import { useTranslation } from 'react-i18next';
+import { isAdminUser } from '../utils/isAdminUser.js';
 
 function CompanyDetails() {
   const { t } = useTranslation();
@@ -24,10 +25,15 @@ function CompanyDetails() {
   const { entities: companyRequests } = useSelector(selectRequestsState);
   const { entities: companyInvites } = useSelector(selectInvitationsState);
   const { currentCompany: company } = useSelector(selectCompaniesState);
+  const [admins, setAdmins] = useState([]);
   useEffect(() => {
     dispatch(fetchCompanyRequests({ companyId }));
     dispatch(fetchCompanyInvitations({ companyId }));
     dispatch(fetchCompanyById({ companyId }));
+
+    requests.getAdmins(companyId).then((data) => {
+      setAdmins(data);
+    });
 
     return () => {
       dispatch(resetRequestsState());
@@ -55,6 +61,17 @@ function CompanyDetails() {
     dispatch(fetchCompanyById({ companyId }));
   };
 
+  const handleAppointAdmin = async (userId, companyId) => {
+    await requests.appointAdmin({ user: userId, company: companyId });
+    const data = await requests.getAdmins(companyId);
+    setAdmins(data);
+  };
+
+  const handleRemoveAdmin = async (userId, companyId) => {
+    await requests.removeAdmin({ user: userId, company: companyId });
+    const data = await requests.getAdmins(companyId);
+    setAdmins(data);
+  };
   return (
     <Box sx={{ p: 3 }}>
       <Header />
@@ -104,13 +121,28 @@ function CompanyDetails() {
       <Stack spacing={2}>
         {company?.members?.length > 0 ? (
           company.members.map((member) => (
-            <Card key={member.id} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Card key={member.id} sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              border: isAdminUser(member.id, admins.data) ? '1px solid green' : '0px',
+            }}>
               <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
                 <Avatar src={member.avatar} sx={{ mr: 2 }} />
                 <Typography
                   variant="body1">{member.first_name && member.last_name ? `${member.first_name} ${member.last_name}` : member.username}</Typography>
               </CardContent>
               <CardActions>
+                {isAdminUser(member.id, admins.data) ?
+                  (
+                    <Button variant="outlined" color="error" onClick={() => handleRemoveAdmin(member.id, companyId)}>
+                      {t('company_details_remove_admin_member_button')}
+                    </Button>
+                  ) :
+                  (<Button variant="outlined" color="success" onClick={() => handleAppointAdmin(member.id, companyId)}>
+                    {t('company_details_make_admin_member_button')}
+                  </Button>)
+                }
+
                 <Button variant="outlined" color="error" onClick={() => handleRemoveUser(member.id, companyId)}>
                   {t('company_details_remove_member_button')}
                 </Button>
