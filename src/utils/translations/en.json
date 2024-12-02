@@ -108,6 +108,8 @@
   "company_details_members_title": "Members",
   "company_details_members_error": "No members in the company.",
   "company_details_remove_member_button": "Kick",
+  "company_details_make_admin_member_button": "Make admin",
+  "company_details_remove_admin_member_button": "Remove admin",
   "select_company": "Select company",
   "no_companies_available": "There is no available companies",
   "invite_user_button": "Invite",

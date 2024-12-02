@@ -108,6 +108,8 @@
   "company_details_members_title": "Учасники",
   "company_details_members_error": "У компанії немає учасників.",
   "company_details_remove_member_button": "Вигнати",
+  "company_details_make_admin_member_button": "Зробити адміном",
+  "company_details_remove_admin_member_button": "Видалити адміна",
   "select_company": "Виберіть компанію",
   "no_companies_available": "Не має доступних компаній",
   "invite_user_button": "Запросити",
