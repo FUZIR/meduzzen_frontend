@@ -58,7 +58,6 @@ function CompanyQuizzes() {
       setAdmins(response.data);
     });
   }, [dispatch, company_id, page]);
-  console.log(quizzes);
 
   if (loading === 'pending') {
     return (

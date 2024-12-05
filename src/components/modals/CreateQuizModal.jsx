@@ -33,41 +33,82 @@ function CreateQuizModal({ isOpen, onClose, onSubmit, companyId }) {
   };
 
   const handleRemoveQuestion = (index) => {
-    const updatedQuestions = [...questions];
-    updatedQuestions.splice(index, 1);
-    setQuestions(updatedQuestions);
+    setQuestions(prevQuestions =>
+      prevQuestions.filter((_, questionId) =>
+        questionId !== index,
+      ),
+    );
   };
 
   const handleAddAnswer = (questionIndex) => {
-    const updatedQuestions = [...questions];
-    updatedQuestions[questionIndex].answers.push({ text: '', is_correct: false });
-    setQuestions(updatedQuestions);
+    setQuestions(prevQuestions =>
+      prevQuestions.map((question, questionId) =>
+        questionId === questionIndex
+          ? {
+            ...question,
+            answers: [...question.answers, { text: '', is_correct: false }],
+          }
+          : question,
+      ),
+    );
   };
 
   const handleRemoveAnswer = (questionIndex, answerIndex) => {
-    const updatedQuestions = [...questions];
-    updatedQuestions[questionIndex].answers.splice(answerIndex, 1);
-    setQuestions(updatedQuestions);
+    setQuestions(prevQuestions =>
+      prevQuestions.map((question, questionId) =>
+        questionId === questionIndex
+          ? {
+            ...question,
+            answers: question.answers.filter((_, answerId) => answerId !== answerIndex),
+          }
+          : question,
+      ),
+    );
   };
 
   const handleChangeQuestion = (index, value) => {
-    const updatedQuestions = [...questions];
-    updatedQuestions[index].text = value;
-    setQuestions(updatedQuestions);
+    setQuestions(prevQuestions =>
+      prevQuestions.map((question, questionId) =>
+        questionId === index ?
+          {
+            ...question, text: value,
+          }
+          : question,
+      ));
   };
 
   const handleChangeAnswer = (questionIndex, answerIndex, value) => {
-    const updatedQuestions = [...questions];
-    updatedQuestions[questionIndex].answers[answerIndex].text = value;
-    setQuestions(updatedQuestions);
+    setQuestions(prevQuestions =>
+      prevQuestions.map((question, questionId) =>
+        questionId === questionIndex
+          ? {
+            ...question,
+            answers: question.answers.map((answer, answerId) =>
+              answerId === answerIndex
+                ? { ...answer, text: value }
+                : answer,
+            ),
+          }
+          : question,
+      ),
+    );
   };
 
   const handleSetCorrectAnswer = (questionIndex, answerIndex) => {
-    const updatedQuestions = [...questions];
-    updatedQuestions[questionIndex].answers = updatedQuestions[questionIndex].answers.map(
-      (text, index) => ({ ...text, is_correct: index === answerIndex }),
+    setQuestions(prevQuestions =>
+      prevQuestions.map((question, questionId) =>
+        questionId === questionIndex
+          ? {
+            ...question,
+            answers: question.answers.map((answer, answerId) =>
+              answerId === answerIndex
+                ? { ...answer, is_correct: true }
+                : { ...answer, is_correct: false },
+            ),
+          }
+          : question,
+      ),
     );
-    setQuestions(updatedQuestions);
   };
 
   const handleSubmit = () => {
