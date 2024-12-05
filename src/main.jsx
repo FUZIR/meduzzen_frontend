@@ -27,6 +27,7 @@ import UpdateInfo from './pages/UpdateInfo.jsx';
 import Requests from './pages/UserRequests.jsx';
 import Invitations from './pages/Invitations.jsx';
 import CompanyDetails from './pages/CompanyDetails.jsx';
+import CompanyQuizzes from './pages/CompanyQuizzes.jsx';
 
 const router = createBrowserRouter([
   {
@@ -84,6 +85,10 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />,
+  },
+  {
+    path: '/company_quizzes/:id',
+    element: <PrivateRoute element={<CompanyQuizzes />} />,
   },
 ]);
 

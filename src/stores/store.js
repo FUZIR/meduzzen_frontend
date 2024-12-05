@@ -9,6 +9,7 @@ import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE } from 'redux-persist
 import { thunk } from 'redux-thunk';
 import invitationReducer from '../features/invitation/invitationSlice.js';
 import requestReducer from '../features/request/requestSlice.js';
+import quizReducer from '../features/quiz/quizSlice.js';
 
 const persistConfig = {
   key: 'root',
@@ -25,6 +26,7 @@ const store = configureStore({
     companies: companiesReducer,
     invitations: invitationReducer,
     requests: requestReducer,
+    quizzes: quizReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
