@@ -143,4 +143,20 @@ export class Requests {
   getAdmins(companyId) {
     return this.sendRequest('get', `/api/companies/admins/?company=${companyId}`);
   }
+
+  getCompanyQuizzes(companyId, page) {
+    return this.sendRequest('get', `/api/quizzes/?company=${companyId}&page=${page}`);
+  }
+
+  createCompanyQuiz(data) {
+    return this.sendRequest('post', `/api/quizzes/`, data);
+  }
+
+  updateCompanyQuiz(quiz_id, data) {
+    return this.sendRequest('put', `/api/quizzes/${quiz_id}/`, data);
+  }
+
+  deleteCompanyQuiz(quiz_id) {
+    return this.sendRequest('delete', `/api/quizzes/${quiz_id}/`);
+  }
 }

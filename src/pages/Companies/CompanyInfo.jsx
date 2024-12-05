@@ -13,6 +13,8 @@ import axios from '../../api/Axios.js';
 import ChangeCompanyInfoModal from '../../components/modals/ChangeCompanyInfoModal.jsx';
 import { isCompanyMember } from '../../utils/isCompanyMember.js';
 import { fetchUserRequests } from '../../features/thunks/requestsThunks.js';
+import { isAdminUser } from '../../utils/isAdminUser.js';
+import CreateQuizModal from '../../components/modals/CreateQuizModal.jsx';
 
 function CompanyInfo({ t }) {
   const requests = new Requests(axios);
@@ -21,10 +23,13 @@ function CompanyInfo({ t }) {
   const userId = parseInt(useSelector(selectUserId));
   const { id } = useParams();
   const companyId = parseInt(id);
+  const currentUser = useSelector(selectUserId);
   const { currentCompany: company, loading } = useSelector(selectCompaniesState);
   const [isOpenDeleteCompanyModal, setIsOpenDeleteCompanyModal] = useState(false);
   const [isOpenChangeCompanyInfoModal, setIsOpenChangeCompanyInfoModal] = useState(false);
+  const [isOpenCreateQuizModal, setIsOpenCreateQuizModal] = useState(false);
   const [isRequestSent, setIsRequestSent] = useState(false);
+  const [admins, setAdmins] = useState([]);
 
   const handleOpenDeleteCompanyModal = () => setIsOpenDeleteCompanyModal(true);
   const handleCloseDeleteCompanyModal = () => setIsOpenDeleteCompanyModal(false);
@@ -32,8 +37,14 @@ function CompanyInfo({ t }) {
   const handleOpenChangeCompanyInfoModal = () => setIsOpenChangeCompanyInfoModal(true);
   const handleCloseChangeCompanyInfoModal = () => setIsOpenChangeCompanyInfoModal(false);
 
+  const handleOpenCreateQuizModal = () => setIsOpenCreateQuizModal(true);
+  const handleCloseCreateQuizModal = () => setIsOpenCreateQuizModal(false);
+
   useEffect(() => {
     dispatch(fetchCompanyById({ companyId: companyId }));
+    requests.getAdmins(companyId).then((response) => {
+      setAdmins(response.data);
+    });
   }, [dispatch]);
 
   const onDeleteCompany = (id) => {
@@ -46,6 +57,11 @@ function CompanyInfo({ t }) {
     await requests.createRequests({ user: userId, company: companyId });
     dispatch(fetchUserRequests());
     setIsRequestSent(true);
+  };
+
+  const handleCreateQuiz = async (data) => {
+    await requests.createCompanyQuiz(data);
+    setIsOpenCreateQuizModal(false);
   };
 
   if (loading === 'pending') {
@@ -75,6 +91,8 @@ function CompanyInfo({ t }) {
                               onClose={handleCloseChangeCompanyInfoModal} currentCompany={company} />
       <DeleteCompanyModal isOpen={isOpenDeleteCompanyModal} handleClose={handleCloseDeleteCompanyModal}
                           onDeleteCompany={() => onDeleteCompany(companyId)} />
+      <CreateQuizModal isOpen={isOpenCreateQuizModal} onClose={handleCloseCreateQuizModal} companyId={companyId}
+                       onSubmit={(data) => handleCreateQuiz(data)} />
       <Container maxWidth={'md'} sx={{
         height: '100vh',
         overflow: 'hidden',
@@ -129,21 +147,84 @@ function CompanyInfo({ t }) {
                       disabled={isRequestSent}>{isRequestSent ? t('company_request_sent') : t('company_send_request')}
               </Button>
             )}
-            {isUserOwner(userId, company.owner.id) &&
+
+            {isUserOwner(userId, company.owner.id) ? (
               <CardContent>
                 <Box sx={{ display: 'flex', flexDirection: 'column', mt: 2 }}>
-                  <Button variant="contained" color="primary" sx={{ mt: 1 }}
-                          onClick={handleOpenChangeCompanyInfoModal}>{t('company_change_info_button')}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{ mt: 1 }}
+                    onClick={handleOpenChangeCompanyInfoModal}
+                  >
+                    {t('company_change_info_button')}
                   </Button>
-                  <Button variant="contained" color="primary" sx={{ mt: 1 }}
-                          component={Link} to={`/companies/${companyId}/details`}>{t('company_owner_info_button')}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{ mt: 1 }}
+                    component={Link}
+                    to={`/companies/${companyId}/details`}
+                  >
+                    {t('company_owner_info_button')}
                   </Button>
-                  <Button variant="outlined" color="error" sx={{ mt: 1 }}
-                          onClick={handleOpenDeleteCompanyModal}>{t('company_delete_button')}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{ mt: 1 }}
+                    component={Link}
+                    to={`/company_quizzes/${companyId}/`}
+                  >{t('quizzes_header')}
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{ mt: 1 }}
+                    onClick={handleOpenCreateQuizModal}
+                  >
+                    {t('create_quiz_button')}
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    sx={{ mt: 1 }}
+                    onClick={handleOpenDeleteCompanyModal}
+                  >
+                    {t('company_delete_button')}
                   </Button>
                 </Box>
               </CardContent>
-            }
+            ) : isAdminUser(userId, admins) ? (
+              <CardContent>
+                <Box sx={{ display: 'flex', flexDirection: 'column', mt: 2 }}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    sx={{ mt: 1 }}
+                    onClick={handleOpenCreateQuizModal}
+                  >
+                    {t('create_quiz_button')}
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{ mt: 1 }}
+                    component={Link}
+                    to={`/company_quizzes/${companyId}/`}
+                  >{t('quizzes_header')}
+                  </Button>
+                </Box>
+              </CardContent>
+            ) : isCompanyMember(company, currentUser) && (
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{ mt: 1 }}
+                component={Link}
+                to={`/company_quizzes/${companyId}/`}
+              >{t('quizzes_header')}
+              </Button>
+            )}
           </CardContent>
         </Card>
       </Container>
