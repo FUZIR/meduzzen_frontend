@@ -16,7 +16,6 @@ export const fetchQuizById = createAsyncThunk(
   'quizzes/fetchQuizById',
   async ({ quiz_id }) => {
     const response = await requests.getQuizById(quiz_id);
-    console.log(response.data);
     return response.data;
   },
 );
