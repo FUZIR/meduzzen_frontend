@@ -135,5 +135,6 @@
   "edit_quiz_button": "Edit Quiz",
   "delete_quiz_button": "Delete Quiz",
   "quizzes_header": "Company quizzes",
-  "quizzes_error": "There is no quizzes"
+  "quizzes_error": "There is no quizzes",
+  "quiz_page_title": "Quiz"
 }

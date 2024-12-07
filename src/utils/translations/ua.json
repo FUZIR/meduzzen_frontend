@@ -135,5 +135,6 @@
   "edit_quiz_button": "Редагувати квіз",
   "delete_quiz_button": "Видалити квіз",
   "quizzes_header": "Квізи компанії",
-  "quizzes_error": "Тут поки що немає квізів"
+  "quizzes_error": "Тут поки що немає квізів",
+  "quiz_page_title": "Квіз"
 }
