@@ -72,6 +72,10 @@ function CompanyDetails() {
     const data = await requests.getAdmins(companyId);
     setAdmins(data);
   };
+
+  const handleExportUserResults = async (userId, companyId) => {
+    await requests.getUserResultsByIdCsv(userId, companyId);
+  };
   return (
     <Box sx={{ p: 3 }}>
       <Header />
@@ -132,6 +136,10 @@ function CompanyDetails() {
                   variant="body1">{member.first_name && member.last_name ? `${member.first_name} ${member.last_name}` : member.username}</Typography>
               </CardContent>
               <CardActions>
+                <Button variant="outlined" color="primary"
+                        onClick={() => handleExportUserResults(member.id, companyId)}>
+                  {t('company_details_export_user_results_button')}
+                </Button>
                 {isAdminUser(member.id, admins.data) ?
                   (
                     <Button variant="outlined" color="error" onClick={() => handleRemoveAdmin(member.id, companyId)}>
@@ -142,7 +150,6 @@ function CompanyDetails() {
                     {t('company_details_make_admin_member_button')}
                   </Button>)
                 }
-
                 <Button variant="outlined" color="error" onClick={() => handleRemoveUser(member.id, companyId)}>
                   {t('company_details_remove_member_button')}
                 </Button>
