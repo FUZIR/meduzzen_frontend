@@ -159,4 +159,16 @@ export class Requests {
   deleteCompanyQuiz(quiz_id) {
     return this.sendRequest('delete', `/api/quizzes/${quiz_id}/`);
   }
+
+  getQuizById(quiz_id) {
+    return this.sendRequest('get', `/api/quizzes/${quiz_id}/`);
+  }
+
+  startQuiz(data) {
+    return this.sendRequest('post', `/api/quizzes/start/`, data);
+  }
+
+  endQuiz(data) {
+    return this.sendRequest('post', `/api/quizzes/end/`, data);
+  }
 }

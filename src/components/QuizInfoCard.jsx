@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from '@mui/material';
 import { withTranslation } from 'react-i18next';
 
-function QuizInfoCard({ title, description, t, isAdmin, isOwner, onQuizDelete, onQuizUpdate }) {
+function QuizInfoCard({ title, description, t, isAdmin, isOwner, onQuizStart, onQuizDelete, onQuizUpdate }) {
   return (
     <Box
       sx={{
@@ -41,6 +41,7 @@ function QuizInfoCard({ title, description, t, isAdmin, isOwner, onQuizDelete, o
           variant="contained"
           size="small"
           color="primary"
+          onClick={onQuizStart}
         >
           {t('start_quiz_button')}
         </Button>

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchCompanyQuizzes } from '../thunks/quizzesThunks.js';
+import { fetchCompanyQuizzes, fetchQuizById } from '../thunks/quizzesThunks.js';
 
 const initialState = {
   entities: [],
@@ -8,6 +8,7 @@ const initialState = {
   count: 0,
   loading: 'idle',
   error: null,
+  currentQuiz: null,
 };
 
 const quizSlice = createSlice({
@@ -27,6 +28,7 @@ const quizSlice = createSlice({
       state.count = 0;
       state.loading = 'idle';
       state.error = null;
+      state.currentQuiz = null;
     },
   },
   extraReducers: (builder) => {
@@ -44,6 +46,20 @@ const quizSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchCompanyQuizzes.rejected, (state, action) => {
+        state.loading = 'rejected';
+        state.error = action.error?.message || 'An unknown error';
+      })
+      .addCase(fetchQuizById.fulfilled, (state, action) => {
+        state.currentQuiz = action.payload;
+        state.loading = 'success';
+      })
+      .addCase(fetchQuizById.pending, (state) => {
+        state.currentQuiz = null;
+        state.loading = 'pending';
+        state.error = null;
+      })
+      .addCase(fetchQuizById.rejected, (state, action) => {
+        state.currentQuiz = null;
         state.loading = 'rejected';
         state.error = action.error?.message || 'An unknown error';
       });

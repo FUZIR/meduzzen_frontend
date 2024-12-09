@@ -11,3 +11,11 @@ export const fetchCompanyQuizzes = createAsyncThunk(
     return response.data;
   },
 );
+
+export const fetchQuizById = createAsyncThunk(
+  'quizzes/fetchQuizById',
+  async ({ quiz_id }) => {
+    const response = await requests.getQuizById(quiz_id);
+    return response.data;
+  },
+);

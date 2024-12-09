@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Box, CircularProgress, Container, Pagination, PaginationItem, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { fetchCompanyQuizzes } from '../features/thunks/quizzesThunks.js';
+import { fetchCompanyQuizzes, fetchQuizById } from '../features/thunks/quizzesThunks.js';
 import { selectCompaniesState, selectQuizzesState, selectUserId } from '../stores/selectors.js';
 import { useTranslation } from 'react-i18next';
 import QuizInfoCard from '../components/QuizInfoCard.jsx';
@@ -15,9 +15,11 @@ import { isAdminUser } from '../utils/isAdminUser.js';
 import { isUserOwner } from '../utils/isUserOwner.js';
 import { fetchCompanyById } from '../features/thunks/companiesThunks.js';
 import Header from '../components/Header.jsx';
+import { hashQuizId } from '../utils/hashing.js';
 
 function CompanyQuizzes() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const requests = new Requests(axios);
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -49,6 +51,13 @@ function CompanyQuizzes() {
   const handleSubmit = async (quiz_id, data) => {
     await requests.updateCompanyQuiz(quiz_id, data);
     dispatch(fetchCompanyQuizzes({ company_id, page }));
+  };
+
+  const handleStartQuiz = async (quiz_id, company_id) => {
+    dispatch(fetchQuizById({ quiz_id }));
+    await requests.startQuiz({ quiz: quiz_id, company: company_id });
+    const redirectHash = hashQuizId(quiz_id, currentUserId);
+    navigate(`/quiz/${redirectHash}`);
   };
 
   useEffect(() => {
@@ -102,6 +111,7 @@ function CompanyQuizzes() {
                 title={quiz.title}
                 description={quiz.description}
                 key={quiz.id}
+                onQuizStart={() => handleStartQuiz(quiz.id, company_id)}
                 onQuizDelete={() => handleQuizDelete(quiz.id)}
                 onQuizUpdate={() => handleOpenChangeQuizModal(quiz)}
                 isAdmin={() => isAdminUser(currentUserId, admins)}
