@@ -20,8 +20,8 @@ import { selectCompaniesState, selectUserId, selectUserState } from '../../store
 import { withTranslation } from 'react-i18next';
 import { fetchUserById } from '../../features/thunks/usersThunks.js';
 import { fetchCompanies } from '../../features/thunks/companiesThunks.js';
-import axios from '../../api/Axios.js';
-import { Requests } from '../../api/Requests.js';
+import axios from '../../api/axios.js';
+import { Requests } from '../../api/requests.js';
 
 function UserInfo({ t }) {
   const { id } = useParams();

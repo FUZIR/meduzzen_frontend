@@ -8,8 +8,8 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchCompanyById } from '../../features/thunks/companiesThunks.js';
 import { useTranslation } from 'react-i18next';
-import axios from '../../api/Axios.js';
-import { Requests } from '../../api/Requests.js';
+import axios from '../../api/axios.js';
+import { Requests } from '../../api/requests.js';
 
 function ChangeCompanyInfoModal({ isOpen, onClose, companyId, currentCompany }) {
   const dispatch = useDispatch();

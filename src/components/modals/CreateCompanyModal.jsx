@@ -3,8 +3,8 @@ import ModalForm from './ModalForm.jsx';
 import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
-import axios from '../../api/Axios.js';
-import { Requests } from '../../api/Requests.js';
+import axios from '../../api/axios.js';
+import { Requests } from '../../api/requests.js';
 import { useTranslation, withTranslation } from 'react-i18next';
 import Typography from '@mui/material/Typography';
 

@@ -8,8 +8,8 @@ import { fetchCompanyQuizzes, fetchQuizById } from '../features/thunks/quizzesTh
 import { selectCompaniesState, selectQuizzesState, selectUserId } from '../stores/selectors.js';
 import { useTranslation } from 'react-i18next';
 import QuizInfoCard from '../components/QuizInfoCard.jsx';
-import { Requests } from '../api/Requests.js';
-import axios from '../api/Axios.js';
+import { Requests } from '../api/requests.js';
+import axios from '../api/axios.js';
 import ChangeQuizModal from '../components/modals/ChangeQuizModal.jsx';
 import { isAdminUser } from '../utils/isAdminUser.js';
 import { isUserOwner } from '../utils/isUserOwner.js';
