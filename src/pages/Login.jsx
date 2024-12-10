@@ -17,8 +17,8 @@ import { withTranslation } from 'react-i18next';
 import { URLS } from '../utils/Urls.js';
 import { storeToken } from '../utils/Storage.js';
 import calculateExpirationDate from '../utils/сalculateExpirationDate.js';
-import { Requests } from '../api/Requests.js';
-import axios from '../api/Axios.js';
+import { Requests } from '../api/requests.js';
+import axios from '../api/axios.js';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',

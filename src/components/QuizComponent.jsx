@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, Card, CardContent, Grid, Typography } from '@mui/material';
-import axios from '../api/Axios.js';
-import { Requests } from '../api/Requests.js';
+import axios from '../api/axios.js';
+import { Requests } from '../api/requests.js';
 import { useNavigate } from 'react-router-dom';
 
 function QuizComponent({ title, description, questions, quizId, companyId }) {

@@ -15,8 +15,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateToken } from '../features/token/loginSlice.js';
 import { withTranslation } from 'react-i18next';
-import { Requests } from '../api/Requests.js';
-import axios from '../api/Axios.js';
+import { Requests } from '../api/requests.js';
+import axios from '../api/axios.js';
 import { storeToken } from '../utils/Storage.js';
 import calculateExpirationDate from '../utils/сalculateExpirationDate.js';
 

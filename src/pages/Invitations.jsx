@@ -8,8 +8,8 @@ import { fetchUserInvitations } from '../features/thunks/invitationsThunks.js';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import UserInvitationCard from '../components/UserInvitationsCard.jsx';
-import axios from '../api/Axios.js';
-import { Requests } from '../api/Requests.js';
+import axios from '../api/axios.js';
+import { Requests } from '../api/requests.js';
 import { resetInvitationState } from '../features/invitation/invitationSlice.js';
 
 function Invitations() {

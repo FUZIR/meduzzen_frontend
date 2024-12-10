@@ -8,8 +8,8 @@ import { selectCompaniesState, selectUserId } from '../../stores/selectors.js';
 import { withTranslation } from 'react-i18next';
 import { isUserOwner } from '../../utils/isUserOwner.js';
 import DeleteCompanyModal from '../../components/modals/DeleteCompanyModal.jsx';
-import { Requests } from '../../api/Requests.js';
-import axios from '../../api/Axios.js';
+import { Requests } from '../../api/requests.js';
+import axios from '../../api/axios.js';
 import ChangeCompanyInfoModal from '../../components/modals/ChangeCompanyInfoModal.jsx';
 import { isCompanyMember } from '../../utils/isCompanyMember.js';
 import { fetchUserRequests } from '../../features/thunks/requestsThunks.js';
@@ -64,6 +64,9 @@ function CompanyInfo({ t }) {
     setIsOpenCreateQuizModal(false);
   };
 
+  const handleExportCompanyResults = async (companyId) => {
+    await requests.getCompanyResultsCsv(companyId);
+  };
   if (loading === 'pending') {
     return (
       <Box
@@ -147,14 +150,13 @@ function CompanyInfo({ t }) {
                       disabled={isRequestSent}>{isRequestSent ? t('company_request_sent') : t('company_send_request')}
               </Button>
             )}
-
             {isUserOwner(userId, company.owner.id) ? (
               <CardContent>
-                <Box sx={{ display: 'flex', flexDirection: 'column', mt: 2 }}>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mt: 2 }}>
                   <Button
                     variant="contained"
                     color="primary"
-                    sx={{ mt: 1 }}
+                    sx={{ flex: 1, minWidth: '120px' }}
                     onClick={handleOpenChangeCompanyInfoModal}
                   >
                     {t('company_change_info_button')}
@@ -162,7 +164,7 @@ function CompanyInfo({ t }) {
                   <Button
                     variant="contained"
                     color="primary"
-                    sx={{ mt: 1 }}
+                    sx={{ flex: 1, minWidth: '120px' }}
                     component={Link}
                     to={`/companies/${companyId}/details`}
                   >
@@ -171,7 +173,7 @@ function CompanyInfo({ t }) {
                   <Button
                     variant="contained"
                     color="primary"
-                    sx={{ mt: 1 }}
+                    sx={{ flex: 1, minWidth: '120px' }}
                     component={Link}
                     to={`/company_quizzes/${companyId}/`}
                   >{t('quizzes_header')}
@@ -179,15 +181,23 @@ function CompanyInfo({ t }) {
                   <Button
                     variant="contained"
                     color="primary"
-                    sx={{ mt: 1 }}
+                    sx={{ flex: 1, minWidth: '120px' }}
                     onClick={handleOpenCreateQuizModal}
                   >
                     {t('create_quiz_button')}
                   </Button>
                   <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{ flex: 1, minWidth: '120px' }}
+                    onClick={() => handleExportCompanyResults(companyId)}
+                  >
+                    {t('profile_export_results_button')}
+                  </Button>
+                  <Button
                     variant="outlined"
                     color="error"
-                    sx={{ mt: 1 }}
+                    sx={{ flex: 1, minWidth: '120px' }}
                     onClick={handleOpenDeleteCompanyModal}
                   >
                     {t('company_delete_button')}
@@ -196,11 +206,11 @@ function CompanyInfo({ t }) {
               </CardContent>
             ) : isAdminUser(userId, admins) ? (
               <CardContent>
-                <Box sx={{ display: 'flex', flexDirection: 'column', mt: 2 }}>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 2 }}>
                   <Button
                     variant="outlined"
                     color="primary"
-                    sx={{ mt: 1 }}
+                    sx={{ flex: 1, minWidth: '120px' }}
                     onClick={handleOpenCreateQuizModal}
                   >
                     {t('create_quiz_button')}
@@ -208,7 +218,15 @@ function CompanyInfo({ t }) {
                   <Button
                     variant="contained"
                     color="primary"
-                    sx={{ mt: 1 }}
+                    sx={{ flex: 1, minWidth: '120px' }}
+                    onClick={() => handleExportCompanyResults(companyId)}
+                  >
+                    {t('profile_export_results_button')}
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{ flex: 1, minWidth: '120px' }}
                     component={Link}
                     to={`/company_quizzes/${companyId}/`}
                   >{t('quizzes_header')}
@@ -219,7 +237,7 @@ function CompanyInfo({ t }) {
               <Button
                 variant="contained"
                 color="primary"
-                sx={{ mt: 1 }}
+                sx={{ flex: 1, minWidth: '120px' }}
                 component={Link}
                 to={`/company_quizzes/${companyId}/`}
               >{t('quizzes_header')}

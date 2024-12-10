@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { Requests } from '../api/Requests.js';
-import axios from '../api/Axios.js';
+import { Requests } from '../api/requests.js';
+import axios from '../api/axios.js';
 
 function Healthcheck() {
   const requests = new Requests(axios);

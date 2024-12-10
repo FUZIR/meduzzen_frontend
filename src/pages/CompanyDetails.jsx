@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Avatar, Box, Button, Card, CardActions, CardContent, Stack, Typography } from '@mui/material';
 import Header from '../components/Header.jsx';
 import CompanyRequestCard from '../components/CompanyRequestCard.jsx';
-import axios from '../api/Axios.js';
+import axios from '../api/axios.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { Requests } from '../api/Requests.js';
+import { Requests } from '../api/requests.js';
 import { fetchCompanyRequests } from '../features/thunks/requestsThunks.js';
 import { selectCompaniesState, selectInvitationsState, selectRequestsState } from '../stores/selectors.js';
 import { useParams } from 'react-router-dom';
@@ -72,6 +72,10 @@ function CompanyDetails() {
     const data = await requests.getAdmins(companyId);
     setAdmins(data);
   };
+
+  const handleExportUserResults = async (userId, companyId) => {
+    await requests.getUserResultsByIdCsv(userId, companyId);
+  };
   return (
     <Box sx={{ p: 3 }}>
       <Header />
@@ -132,6 +136,10 @@ function CompanyDetails() {
                   variant="body1">{member.first_name && member.last_name ? `${member.first_name} ${member.last_name}` : member.username}</Typography>
               </CardContent>
               <CardActions>
+                <Button variant="outlined" color="primary"
+                        onClick={() => handleExportUserResults(member.id, companyId)}>
+                  {t('company_details_export_user_results_button')}
+                </Button>
                 {isAdminUser(member.id, admins.data) ?
                   (
                     <Button variant="outlined" color="error" onClick={() => handleRemoveAdmin(member.id, companyId)}>
@@ -142,7 +150,6 @@ function CompanyDetails() {
                     {t('company_details_make_admin_member_button')}
                   </Button>)
                 }
-
                 <Button variant="outlined" color="error" onClick={() => handleRemoveUser(member.id, companyId)}>
                   {t('company_details_remove_member_button')}
                 </Button>

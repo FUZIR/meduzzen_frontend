@@ -1,6 +1,6 @@
-import axios from '../../api/Axios.js';
+import axios from '../../api/axios.js';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Requests } from '../../api/Requests.js';
+import { Requests } from '../../api/requests.js';
 
 const requests = new Requests(axios);
 

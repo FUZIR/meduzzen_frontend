@@ -9,8 +9,8 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { fetchUserRequests } from '../features/thunks/requestsThunks.js';
 import { resetRequestsState } from '../features/request/requestSlice.js';
 import UserRequestsCard from '../components/UserRequestsCard.jsx';
-import axios from '../api/Axios.js';
-import { Requests } from '../api/Requests.js';
+import axios from '../api/axios.js';
+import { Requests } from '../api/requests.js';
 
 function UserRequests() {
   const { t } = useTranslation();

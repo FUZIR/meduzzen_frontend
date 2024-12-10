@@ -7,8 +7,8 @@ import { parseDate } from '../utils/dateParser.js';
 import { withTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import DeleteProfileModal from '../components/modals/DeleteProfileModal.jsx';
-import { Requests } from '../api/Requests.js';
-import axios from '../api/Axios.js';
+import { Requests } from '../api/requests.js';
+import axios from '../api/axios.js';
 import { fetchUserById } from '../features/thunks/usersThunks.js';
 import LeaveCompanyModal from '../components/modals/LeaveCompanyModal.jsx';
 import { fetchCompanies } from '../features/thunks/companiesThunks.js';
@@ -46,6 +46,9 @@ function Profile({ t }) {
   const handleOpenLeaveCompanyModal = () => setLeaveCompanyModalIsOpen(true);
   const handleCloseLeaveCompanyModal = () => setLeaveCompanyModalIsOpen(false);
 
+  const handleExportResults = async () => {
+    await requests.getUserResultsCsv(userId);
+  };
   useEffect(() => {
     const token = getToken();
     if (!token) {
@@ -108,11 +111,13 @@ function Profile({ t }) {
           </CardContent>
         </Card>
         <CardContent>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2, gap: 2, flexDirection: 'row' }}>
             <Button variant="contained" color="primary" sx={{ mt: 1 }}
                     component={Link} to={'/profile/update_info'}>{t('profile_change_button')}</Button>
             <Button variant="contained" color="primary" sx={{ mt: 1 }}
                     onClick={handleOpenCreateCompanyModal}>{t('profile_create_company_button')}</Button>
+            <Button variant="contained" color="primary" sx={{ mt: 1 }}
+                    onClick={handleExportResults}>{t('profile_export_results_button')}</Button>
             <Button variant="outlined" color="error" sx={{ mt: 1 }}
                     onClick={handleOpenDeleteProfileModal}>{t('profile_delete_button')}</Button>
             {user.company &&
