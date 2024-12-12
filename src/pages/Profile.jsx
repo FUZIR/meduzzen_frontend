@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Avatar, Box, Button, Card, CardContent, CircularProgress, Container, Typography } from '@mui/material';
 import Header from '../components/Header.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAnalyticsState, selectCompaniesState, selectUserId, selectUserState } from '../stores/selectors.js';
+import { selectCompaniesState, selectUserId, selectUserState } from '../stores/selectors.js';
 import { parseDate } from '../utils/dateParser.js';
 import { withTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
@@ -15,7 +15,6 @@ import { fetchCompanies } from '../features/thunks/companiesThunks.js';
 import CreateCompanyModal from '../components/modals/CreateCompanyModal.jsx';
 import { getToken } from '../utils/Storage.js';
 import UserAveragesByIdChart from '../components/UserAveragesByIdChart.jsx';
-import { fetchUserQuizHistory } from '../features/thunks/analyticsThunks.js';
 import QuizHistoryCard from '../components/QuizHistoryCard.jsx';
 
 function Profile({ t }) {
@@ -25,12 +24,12 @@ function Profile({ t }) {
   const userId = parseInt(useSelector(selectUserId));
   const { entities: companies } = useSelector(selectCompaniesState);
   const { currentUser: user, loading: loading } = useSelector(selectUserState);
-  const { currentUserQuizzesHistory: userHistory } = useSelector(selectAnalyticsState);
   const [createCompanyModalIsOpen, setCreateCompanyModalIsOpen] = useState(false);
   const [deleteProfileModalIsOpen, setDeleteProfileModalIsOpen] = useState(false);
   const [leaveCompanyModalIsOpen, setLeaveCompanyModalIsOpen] = useState(false);
   const owned_companies = companies.filter((company) => company.owner === userId);
   const [userRating, setUserRating] = useState({});
+  const [userQuizzesHistory, setUserQuizzesHistory] = useState([]);
 
   const onDeleteProfile = () => {
     requests.patchUserInfo(userId, { 'visible': false });
@@ -65,7 +64,9 @@ function Profile({ t }) {
     } else {
       dispatch(fetchUserById({ userId }));
       dispatch(fetchCompanies());
-      dispatch(fetchUserQuizHistory());
+      requests.getUserQuizzesHistory().then((response) => {
+        setUserQuizzesHistory(response.data);
+      });
     }
   }, [dispatch, userId]);
 
@@ -142,7 +143,7 @@ function Profile({ t }) {
           <Typography variant={'h4'} color={'primary'} align={'center'} mt={4}>
             {t('profile_user_quizzes_history')}
           </Typography>
-          <QuizHistoryCard quizData={userHistory} />
+          <QuizHistoryCard quizData={userQuizzesHistory} />
         </CardContent>
       </Box>
     </Container>

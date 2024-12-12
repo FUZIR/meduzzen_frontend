@@ -9,7 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchCompanyById } from '../features/thunks/companiesThunks.js';
 import { selectCompaniesState } from '../stores/selectors.js';
-import { fetchUserAverageById } from '../features/thunks/analyticsThunks.js';
+import { Requests } from '../api/requests.js';
+import axios from '../api/axios.js';
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Legend, Title);
 
@@ -26,12 +27,6 @@ function CompanyAnalytics() {
       dispatch(fetchCompanyById({ companyId }));
     }
   }, [dispatch, companyId]);
-
-  useEffect(() => {
-    if (selectedUserId) {
-      dispatch(fetchUserAverageById(selectedUserId));
-    }
-  }, [dispatch, selectedUserId]);
 
   const handleUserChange = (event) => {
     setSelectedUserId(event.target.value);

@@ -1,19 +1,20 @@
-import React, { useEffect } from 'react';
-import { fetchUsersAverage } from '../features/thunks/analyticsThunks.js';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectAnalyticsState } from '../stores/selectors.js';
+import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Box, Typography } from '@mui/material';
 import { useTranslation, withTranslation } from 'react-i18next';
+import { Requests } from '../api/requests.js';
+import axios from '../api/axios.js';
 
 function UsersAverageChart() {
-  const dispatch = useDispatch();
-  const { usersAverage } = useSelector(selectAnalyticsState);
+  const requests = new Requests(axios);
   const { t } = useTranslation();
+  const [usersAverage, setUsersAverage] = useState([]);
 
   useEffect(() => {
-    dispatch(fetchUsersAverage());
-  }, [dispatch]);
+    requests.getUsersAverageAnalytics().then((response) => {
+      setUsersAverage(response.data);
+    });
+  }, []);
 
   const data = {
     labels: usersAverage.map((timeline) => timeline.date),

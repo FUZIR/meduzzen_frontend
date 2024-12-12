@@ -10,7 +10,6 @@ import { thunk } from 'redux-thunk';
 import invitationReducer from '../features/invitation/invitationSlice.js';
 import requestReducer from '../features/request/requestSlice.js';
 import quizReducer from '../features/quiz/quizSlice.js';
-import analyticReducer from '../features/analytic/analyticSlice.js';
 
 const persistConfig = {
   key: 'root',
@@ -28,7 +27,6 @@ const store = configureStore({
     invitations: invitationReducer,
     requests: requestReducer,
     quizzes: quizReducer,
-    analytics: analyticReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
