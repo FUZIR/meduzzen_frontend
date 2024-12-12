@@ -202,4 +202,24 @@ export class Requests {
   getCompanyResultsCsv(company_id) {
     return this.downloadCsv(`/api/quizzes/company-results-csv/?company=${company_id}`);
   }
+
+  getUserAverageAnalyticById(user_id) {
+    return this.sendRequest('get', `/api/quizzes/user-average-by-id/?user=${user_id}`);
+  }
+
+  getUsersAverageAnalytics() {
+    return this.sendRequest('get', `/api/quizzes/users-average/`);
+  }
+
+  getCompanyUsersWithLastTestTaken(company_id) {
+    return this.sendRequest('get', `/api/quizzes/company-users-with-last-test/?company=${company_id}`);
+  }
+
+  getUsersRating() {
+    return this.sendRequest('get', '/api/quizzes/get-ratings/');
+  }
+
+  getUserQuizzesHistory() {
+    return this.sendRequest('get', 'api/quizzes/user-history/');
+  }
 }

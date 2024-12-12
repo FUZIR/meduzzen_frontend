@@ -26,6 +26,16 @@ function CompanyDetails() {
   const { entities: companyInvites } = useSelector(selectInvitationsState);
   const { currentCompany: company } = useSelector(selectCompaniesState);
   const [admins, setAdmins] = useState([]);
+  const [usersWithLastTest, setUsersWithLastTest] = useState([]);
+  const companyMembers = company?.members?.map((member) => {
+    const matchingObj = usersWithLastTest.find((user) => user.user === member.id);
+    return matchingObj ? {
+      ...member,
+      last_test_score: matchingObj.score,
+      last_test_time: matchingObj.last_time_taken,
+    } : member;
+  });
+
   useEffect(() => {
     dispatch(fetchCompanyRequests({ companyId }));
     dispatch(fetchCompanyInvitations({ companyId }));
@@ -35,6 +45,9 @@ function CompanyDetails() {
       setAdmins(data);
     });
 
+    requests.getCompanyUsersWithLastTestTaken(companyId).then((response) => {
+      setUsersWithLastTest(Array.isArray(response.data) ? response.data : Object.values(response.data));
+    });
     return () => {
       dispatch(resetRequestsState());
       dispatch(resetInvitationState());
@@ -123,8 +136,8 @@ function CompanyDetails() {
         {t('company_details_members_title')}
       </Typography>
       <Stack spacing={2}>
-        {company?.members?.length > 0 ? (
-          company.members.map((member) => (
+        {companyMembers?.length > 0 ? (
+          companyMembers.map((member) => (
             <Card key={member.id} sx={{
               display: 'flex',
               justifyContent: 'space-between',
@@ -132,8 +145,13 @@ function CompanyDetails() {
             }}>
               <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
                 <Avatar src={member.avatar} sx={{ mr: 2 }} />
-                <Typography
-                  variant="body1">{member.first_name && member.last_name ? `${member.first_name} ${member.last_name}` : member.username}</Typography>
+                <Typography variant="body1">
+                  {member.first_name && member.last_name ? `${member.first_name} ${member.last_name}` : member.username}
+                </Typography>
+                <Typography variant="body1" ml={5}>
+                  {t('user_last_test_time')}: {member.last_test_time ? new Date(member.last_test_time).toLocaleString() : 'N/A'},
+                  {t('user_last_test_score')}: {member.last_test_score}
+                </Typography>
               </CardContent>
               <CardActions>
                 <Button variant="outlined" color="primary"

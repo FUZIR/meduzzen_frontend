@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Avatar, Box, Button, Card, CardContent, CircularProgress, Container, Typography } from '@mui/material';
 import Header from '../components/Header.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCompaniesState, selectUserId, selectUserState } from '../stores/selectors.js';
+import { selectAnalyticsState, selectCompaniesState, selectUserId, selectUserState } from '../stores/selectors.js';
 import { parseDate } from '../utils/dateParser.js';
 import { withTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
@@ -14,6 +14,9 @@ import LeaveCompanyModal from '../components/modals/LeaveCompanyModal.jsx';
 import { fetchCompanies } from '../features/thunks/companiesThunks.js';
 import CreateCompanyModal from '../components/modals/CreateCompanyModal.jsx';
 import { getToken } from '../utils/Storage.js';
+import UserAveragesByIdChart from '../components/UserAveragesByIdChart.jsx';
+import { fetchUserQuizHistory } from '../features/thunks/analyticsThunks.js';
+import QuizHistoryCard from '../components/QuizHistoryCard.jsx';
 
 function Profile({ t }) {
   const requests = new Requests(axios);
@@ -22,10 +25,12 @@ function Profile({ t }) {
   const userId = parseInt(useSelector(selectUserId));
   const { entities: companies } = useSelector(selectCompaniesState);
   const { currentUser: user, loading: loading } = useSelector(selectUserState);
+  const { currentUserQuizzesHistory: userHistory } = useSelector(selectAnalyticsState);
   const [createCompanyModalIsOpen, setCreateCompanyModalIsOpen] = useState(false);
   const [deleteProfileModalIsOpen, setDeleteProfileModalIsOpen] = useState(false);
   const [leaveCompanyModalIsOpen, setLeaveCompanyModalIsOpen] = useState(false);
   const owned_companies = companies.filter((company) => company.owner === userId);
+  const [userRating, setUserRating] = useState({});
 
   const onDeleteProfile = () => {
     requests.patchUserInfo(userId, { 'visible': false });
@@ -51,11 +56,16 @@ function Profile({ t }) {
   };
   useEffect(() => {
     const token = getToken();
+    requests.getUsersRating().then((response) => {
+      const user = response.data.find((user) => user.user.id === userId);
+      setUserRating(user);
+    });
     if (!token) {
       navigate('/login');
     } else {
       dispatch(fetchUserById({ userId }));
       dispatch(fetchCompanies());
+      dispatch(fetchUserQuizHistory());
     }
   }, [dispatch, userId]);
 
@@ -108,6 +118,9 @@ function Profile({ t }) {
                 {t('profile_owned_companies')}: {owned_companies.map((company) => company.name).join(', ')}
               </Typography>)
             }
+            <Typography variant="body1">
+              {t('profile_user_rating')}: {userRating.average_score}
+            </Typography>
           </CardContent>
         </Card>
         <CardContent>
@@ -124,8 +137,12 @@ function Profile({ t }) {
               (<Button variant="outlined" color="error" sx={{ mt: 1 }}
                        onClick={handleOpenLeaveCompanyModal}>{t('company_leave_button')}</Button>)
             }
-
           </Box>
+          <UserAveragesByIdChart user_id={userId} />
+          <Typography variant={'h4'} color={'primary'} align={'center'} mt={4}>
+            {t('profile_user_quizzes_history')}
+          </Typography>
+          <QuizHistoryCard quizData={userHistory} />
         </CardContent>
       </Box>
     </Container>
