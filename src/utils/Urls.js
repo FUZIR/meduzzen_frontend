@@ -6,4 +6,5 @@ export const URLS = {
   PROFILE: '/profile',
   REQUESTS: '/requests',
   INVITATIONS: '/invitations',
+  NOTIFICATIONS: '/notifications',
 };

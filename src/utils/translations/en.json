@@ -23,6 +23,7 @@
   "account_menu_profile": "Profile",
   "account_menu_invitations": "Invitations",
   "account_menu_requests": "Requests",
+  "account_menu_notifications": "Notifications",
   "registration_header": "Registration",
   "registration_email": "Email",
   "registration_username": "Username",
@@ -146,5 +147,7 @@
   "user_last_test_time": "Last test time",
   "user_last_test_score": "Score",
   "profile_user_rating": "Rating score",
-  "profile_user_quizzes_history": "User quizzes history"
+  "profile_user_quizzes_history": "User quizzes history",
+  "notifications_header": "Notifications",
+  "notification_create_time": "Created at"
 }

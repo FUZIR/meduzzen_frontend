@@ -15,6 +15,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import AssistantIcon from '@mui/icons-material/Assistant';
 import ArchiveIcon from '@mui/icons-material/Archive';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -131,6 +132,12 @@ function AccountMenu({ t }) {
         }
 
         <Divider />
+        <MenuItem onClick={handleClose} component={Link} to={URLS.NOTIFICATIONS}>
+          <ListItemIcon>
+            <NotificationsIcon fontSize="small" />
+          </ListItemIcon>
+          {t('account_menu_notifications')}
+        </MenuItem>
         <MenuItem onClick={handleClose} component={Link} to={URLS.USERS}>
           <ListItemIcon>
             <PeopleIcon fontSize="small" />
