@@ -171,6 +171,15 @@ function CompanyInfo({ t }) {
                     {t('company_owner_info_button')}
                   </Button>
                   <Button
+                    variant="outlined"
+                    color="primary"
+                    sx={{ flex: 1, minWidth: '120px' }}
+                    component={Link}
+                    to={`/companies/${companyId}/analytics`}
+                  >
+                    {t('company_analytics_button')}
+                  </Button>
+                  <Button
                     variant="contained"
                     color="primary"
                     sx={{ flex: 1, minWidth: '120px' }}
@@ -230,6 +239,15 @@ function CompanyInfo({ t }) {
                     component={Link}
                     to={`/company_quizzes/${companyId}/`}
                   >{t('quizzes_header')}
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    sx={{ flex: 1, minWidth: '120px' }}
+                    component={Link}
+                    to={`/companies/${companyId}/analytics`}
+                  >
+                    {t('company_analytics_button')}
                   </Button>
                 </Box>
               </CardContent>

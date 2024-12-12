@@ -138,5 +138,13 @@
   "delete_quiz_button": "Delete Quiz",
   "quizzes_header": "Company quizzes",
   "quizzes_error": "There is no quizzes",
-  "quiz_page_title": "Quiz"
+  "quiz_page_title": "Quiz",
+  "company_analytics_button": "Analytics",
+  "analytics_header": "Company analytics",
+  "users_average_score_chart_title": "Users average score",
+  "user_average_score_chart_title": "User average score",
+  "user_last_test_time": "Last test time",
+  "user_last_test_score": "Score",
+  "profile_user_rating": "Rating score",
+  "profile_user_quizzes_history": "User quizzes history"
 }

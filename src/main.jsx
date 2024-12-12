@@ -29,6 +29,7 @@ import Invitations from './pages/Invitations.jsx';
 import CompanyDetails from './pages/CompanyDetails.jsx';
 import CompanyQuizzes from './pages/CompanyQuizzes.jsx';
 import Quiz from './pages/Quiz.jsx';
+import CompanyAnalytics from './pages/CompanyAnalytics.jsx';
 
 const router = createBrowserRouter([
   {
@@ -94,6 +95,10 @@ const router = createBrowserRouter([
   {
     path: '/quiz/:hash',
     element: <PrivateRoute element={<Quiz />} />,
+  },
+  {
+    path: '/companies/:id/analytics',
+    element: <PrivateRoute element={<CompanyAnalytics />} />,
   },
 ]);
 

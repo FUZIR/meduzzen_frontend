@@ -14,6 +14,8 @@ import LeaveCompanyModal from '../components/modals/LeaveCompanyModal.jsx';
 import { fetchCompanies } from '../features/thunks/companiesThunks.js';
 import CreateCompanyModal from '../components/modals/CreateCompanyModal.jsx';
 import { getToken } from '../utils/Storage.js';
+import UserAveragesByIdChart from '../components/UserAveragesByIdChart.jsx';
+import QuizHistoryCard from '../components/QuizHistoryCard.jsx';
 
 function Profile({ t }) {
   const requests = new Requests(axios);
@@ -26,6 +28,8 @@ function Profile({ t }) {
   const [deleteProfileModalIsOpen, setDeleteProfileModalIsOpen] = useState(false);
   const [leaveCompanyModalIsOpen, setLeaveCompanyModalIsOpen] = useState(false);
   const owned_companies = companies.filter((company) => company.owner === userId);
+  const [userRating, setUserRating] = useState({});
+  const [userQuizzesHistory, setUserQuizzesHistory] = useState([]);
 
   const onDeleteProfile = () => {
     requests.patchUserInfo(userId, { 'visible': false });
@@ -51,11 +55,18 @@ function Profile({ t }) {
   };
   useEffect(() => {
     const token = getToken();
+    requests.getUsersRating().then((response) => {
+      const user = response.data.find((user) => user.user.id === userId);
+      setUserRating(user);
+    });
     if (!token) {
       navigate('/login');
     } else {
       dispatch(fetchUserById({ userId }));
       dispatch(fetchCompanies());
+      requests.getUserQuizzesHistory().then((response) => {
+        setUserQuizzesHistory(response.data);
+      });
     }
   }, [dispatch, userId]);
 
@@ -108,6 +119,9 @@ function Profile({ t }) {
                 {t('profile_owned_companies')}: {owned_companies.map((company) => company.name).join(', ')}
               </Typography>)
             }
+            <Typography variant="body1">
+              {t('profile_user_rating')}: {userRating.average_score}
+            </Typography>
           </CardContent>
         </Card>
         <CardContent>
@@ -124,8 +138,12 @@ function Profile({ t }) {
               (<Button variant="outlined" color="error" sx={{ mt: 1 }}
                        onClick={handleOpenLeaveCompanyModal}>{t('company_leave_button')}</Button>)
             }
-
           </Box>
+          <UserAveragesByIdChart user_id={userId} />
+          <Typography variant={'h4'} color={'primary'} align={'center'} mt={4}>
+            {t('profile_user_quizzes_history')}
+          </Typography>
+          <QuizHistoryCard quizData={userQuizzesHistory} />
         </CardContent>
       </Box>
     </Container>
