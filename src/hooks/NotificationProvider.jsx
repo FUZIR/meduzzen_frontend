@@ -22,12 +22,10 @@ function NotificationProvider({ children }) {
   useEffect(() => {
     const onConnect = () => {
       setIsConnected(true);
-      console.log('WebSocket connected');
     };
 
     const onDisconnect = () => {
       setIsConnected(false);
-      console.log('WebSocket disconnected');
     };
 
     const onMessage = (event) => {
