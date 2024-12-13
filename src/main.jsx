@@ -29,7 +29,7 @@ import Invitations from './pages/Invitations.jsx';
 import CompanyDetails from './pages/CompanyDetails.jsx';
 import CompanyQuizzes from './pages/CompanyQuizzes.jsx';
 import Quiz from './pages/Quiz.jsx';
-import NotificationProvider from './hooks/NotificationProvider.jsx';
+import NotificationProvider from './components/NotificationProvider.jsx';
 import CompanyAnalytics from './pages/CompanyAnalytics.jsx';
 import Notifications from './pages/Notifications.jsx';
 

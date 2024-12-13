@@ -21,7 +21,7 @@ import { withTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteToken } from '../features/token/loginSlice.js';
 import { removeToken } from '../utils/Storage.js';
-import { URLS } from '../utils/Urls.js';
+import { Urls } from '../utils/urls.js';
 import { selectIsAuthenticated } from '../stores/selectors.js';
 
 function AccountMenu({ t }) {
@@ -95,19 +95,19 @@ function AccountMenu({ t }) {
               </LogoutIcon>
               {t('account_menu_logout')}
             </MenuItem>,
-            <MenuItem key="profile" onClick={handleClose} component={Link} to={URLS.PROFILE}>
+            <MenuItem key="profile" onClick={handleClose} component={Link} to={Urls.PROFILE}>
               <ListItemIcon>
                 <AccountBoxIcon fontSize="small" />
               </ListItemIcon>
               {t('account_menu_profile')}
             </MenuItem>,
-            <MenuItem key="invitations" onClick={handleClose} component={Link} to={URLS.INVITATIONS}>
+            <MenuItem key="invitations" onClick={handleClose} component={Link} to={Urls.INVITATIONS}>
               <ListItemIcon>
                 <AssistantIcon fontSize="small" />
               </ListItemIcon>
               {t('account_menu_invitations')}
             </MenuItem>,
-            <MenuItem key="requests" onClick={handleClose} component={Link} to={URLS.REQUESTS}>
+            <MenuItem key="requests" onClick={handleClose} component={Link} to={Urls.REQUESTS}>
               <ListItemIcon>
                 <ArchiveIcon fontSize="small" />
               </ListItemIcon>
@@ -116,13 +116,13 @@ function AccountMenu({ t }) {
           ])
           :
           ([
-            <MenuItem key="login" onClick={handleClose} component={Link} to={URLS.LOGIN}>
+            <MenuItem key="login" onClick={handleClose} component={Link} to={Urls.LOGIN}>
               <LoginIcon>
                 <PeopleIcon fontSize="small" />
               </LoginIcon>
               {t('account_menu_login')}
             </MenuItem>,
-            <MenuItem key="registration" onClick={handleClose} component={Link} to={URLS.REGISTER}>
+            <MenuItem key="registration" onClick={handleClose} component={Link} to={Urls.REGISTER}>
               <HowToRegIcon>
                 <PeopleIcon fontSize="small" />
               </HowToRegIcon>
@@ -132,19 +132,19 @@ function AccountMenu({ t }) {
         }
 
         <Divider />
-        <MenuItem onClick={handleClose} component={Link} to={URLS.NOTIFICATIONS}>
+        <MenuItem onClick={handleClose} component={Link} to={Urls.NOTIFICATIONS}>
           <ListItemIcon>
             <NotificationsIcon fontSize="small" />
           </ListItemIcon>
           {t('account_menu_notifications')}
         </MenuItem>
-        <MenuItem onClick={handleClose} component={Link} to={URLS.USERS}>
+        <MenuItem onClick={handleClose} component={Link} to={Urls.USERS}>
           <ListItemIcon>
             <PeopleIcon fontSize="small" />
           </ListItemIcon>
           {t('account_menu_users')}
         </MenuItem>
-        <MenuItem onClick={handleClose} component={Link} to={URLS.COMPANIES}>
+        <MenuItem onClick={handleClose} component={Link} to={Urls.COMPANIES}>
           <ListItemIcon>
             <BusinessIcon fontSize="small" />
           </ListItemIcon>

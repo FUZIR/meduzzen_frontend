@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteToken } from '../features/token/loginSlice.js';
 import { removeToken } from '../utils/Storage.js';
-import { URLS } from '../utils/Urls.js';
+import { Urls } from '../utils/urls.js';
 
 function TokenExpirationWrapper({ children }) {
   const expirationDate = localStorage.getItem('token_expiry');
@@ -15,7 +15,7 @@ function TokenExpirationWrapper({ children }) {
       if (expirationDate && currentTime >= expirationDate) {
         dispatch(deleteToken());
         removeToken();
-        window.location.replace(URLS.LOGIN);
+        window.location.replace(Urls.LOGIN);
       }
     };
 

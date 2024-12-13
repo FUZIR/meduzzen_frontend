@@ -4,7 +4,7 @@ import Header from '../components/Header.jsx';
 import { Requests } from '../api/requests.js';
 import axios from '../api/axios.js';
 import { useTranslation, withTranslation } from 'react-i18next';
-import { socket } from '../hooks/NotificationProvider.jsx';
+import { socket } from '../api/socket.js';
 
 function Notifications() {
   const requests = new Requests(axios);
@@ -16,10 +16,18 @@ function Notifications() {
       setNotifications(response.data);
     });
   };
+
   useEffect(() => {
     getNotifications();
 
+    const handleSocketMessage = () => {
+      getNotifications();
+    };
     socket.addEventListener('message', getNotifications);
+
+    return () => {
+      socket.removeEventListener('message', handleSocketMessage);
+    };
   }, []);
 
   const handleMarkNotification = async (id) => {

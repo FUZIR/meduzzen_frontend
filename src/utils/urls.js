@@ -1,4 +1,4 @@
-export const URLS = {
+export const Urls = {
   REGISTER: '/registration',
   LOGIN: '/login',
   USERS: '/users',
