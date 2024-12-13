@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import { URLS } from '../utils/Urls.js';
+import { Urls } from '../utils/urls.js';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateToken } from '../features/token/loginSlice.js';
@@ -286,7 +286,7 @@ function Registration({ t }) {
               {t('registration_question')}{' '}
               <span>
                 <Link
-                  href={URLS.LOGIN}
+                  href={Urls.LOGIN}
                   variant="body2"
                   sx={{ alignSelf: 'center' }}
                 >

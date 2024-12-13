@@ -29,7 +29,9 @@ import Invitations from './pages/Invitations.jsx';
 import CompanyDetails from './pages/CompanyDetails.jsx';
 import CompanyQuizzes from './pages/CompanyQuizzes.jsx';
 import Quiz from './pages/Quiz.jsx';
+import NotificationProvider from './components/NotificationProvider.jsx';
 import CompanyAnalytics from './pages/CompanyAnalytics.jsx';
+import Notifications from './pages/Notifications.jsx';
 
 const router = createBrowserRouter([
   {
@@ -100,18 +102,24 @@ const router = createBrowserRouter([
     path: '/companies/:id/analytics',
     element: <PrivateRoute element={<CompanyAnalytics />} />,
   },
+  {
+    path: '/notifications',
+    element: <PrivateRoute element={<Notifications />} />,
+  },
 ]);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
-      <TokenExpirationWrapper>
-        <CssBaseline />
-        <LanguageInitializer />
-        <PersistGate loading={null} persistor={persistore}>
-          <RouterProvider router={router} />
-        </PersistGate>
-      </TokenExpirationWrapper>
+      <NotificationProvider>
+        <TokenExpirationWrapper>
+          <CssBaseline />
+          <LanguageInitializer />
+          <PersistGate loading={null} persistor={persistore}>
+            <RouterProvider router={router} />
+          </PersistGate>
+        </TokenExpirationWrapper>
+      </NotificationProvider>
     </Provider>
   </StrictMode>,
 );

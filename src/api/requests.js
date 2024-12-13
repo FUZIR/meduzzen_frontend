@@ -220,6 +220,14 @@ export class Requests {
   }
 
   getUserQuizzesHistory() {
-    return this.sendRequest('get', 'api/quizzes/user-history/');
+    return this.sendRequest('get', '/api/quizzes/user-history/');
+  }
+
+  getUserNotifications() {
+    return this.sendRequest('get', '/api/notifications/');
+  }
+
+  markNotificationAsRead(data) {
+    return this.sendRequest('patch', '/api/notifications/mark-read/', data);
   }
 }

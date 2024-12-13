@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateToken } from '../features/token/loginSlice.js';
 import { withTranslation } from 'react-i18next';
-import { URLS } from '../utils/Urls.js';
+import { Urls } from '../utils/urls.js';
 import { storeToken } from '../utils/Storage.js';
 import calculateExpirationDate from '../utils/сalculateExpirationDate.js';
 import { Requests } from '../api/requests.js';
@@ -216,7 +216,7 @@ function Login({ t }) {
               {t('login_question')} {' '}
               <span>
                 <Link
-                  href={URLS.REGISTER}
+                  href={Urls.REGISTER}
                   variant="body2"
                   sx={{ alignSelf: 'center' }}
                 >

@@ -23,6 +23,7 @@
   "account_menu_profile": "Профіль",
   "account_menu_invitations": "Запрошення",
   "account_menu_requests": "Мої запити",
+  "account_menu_notifications": "Повідомлення",
   "registration_header": "Реєстрація",
   "registration_email": "Електронна пошта",
   "registration_username": "Нікнейм",
@@ -146,5 +147,7 @@
   "user_last_test_time": "Проходження останнього тесту",
   "user_last_test_score": "Результат",
   "profile_user_rating": "Рейтинговий результат",
-  "profile_user_quizzes_history": "Історія квізів"
+  "profile_user_quizzes_history": "Історія квізів",
+  "notifications_header": "Повідомлення",
+  "notification_create_time": "Створено"
 }
