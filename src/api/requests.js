@@ -163,8 +163,8 @@ export class Requests {
     return this.sendRequest('get', `/api/companies/admins/?company=${companyId}`);
   }
 
-  getCompanyQuizzes(companyId, page) {
-    return this.sendRequest('get', `/api/quizzes/?company=${companyId}&page=${page}`);
+  getCompanyQuizzes(companyId, offset, limit) {
+    return this.sendRequest('get', `/api/quizzes/?company=${companyId}&limit=${limit}&offset=${offset}`);
   }
 
   createCompanyQuiz(data) {

@@ -6,8 +6,8 @@ const requests = new Requests(axios);
 
 export const fetchCompanyQuizzes = createAsyncThunk(
   'quizzes/fetchCompanyQuizzes',
-  async ({ company_id }) => {
-    const response = await requests.getCompanyQuizzes(company_id);
+  async ({ company_id, limit, offset }) => {
+    const response = await requests.getCompanyQuizzes(company_id, offset, limit);
     return response.data;
   },
 );

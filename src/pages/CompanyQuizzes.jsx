@@ -61,7 +61,8 @@ function CompanyQuizzes() {
   };
 
   useEffect(() => {
-    dispatch(fetchCompanyQuizzes({ company_id, page }));
+    const offset = (page - 1) * quizzesPerPage;
+    dispatch(fetchCompanyQuizzes({ company_id, limit: quizzesPerPage, offset }));
     dispatch(fetchCompanyById({ companyId: company_id }));
     requests.getAdmins(company_id).then((response) => {
       setAdmins(response.data);
