@@ -56,7 +56,7 @@ function CompanyQuizzes() {
   const handleStartQuiz = async (quiz_id, company_id) => {
     dispatch(fetchQuizById({ quiz_id }));
     await requests.startQuiz({ quiz: quiz_id, company: company_id });
-    const redirectHash = hashQuizId(quiz_id, currentUserId);
+    const redirectHash = await hashQuizId(quiz_id, currentUserId);
     navigate(`/quiz/${redirectHash}`);
   };
 
