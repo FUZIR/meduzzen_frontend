@@ -32,6 +32,7 @@ import Quiz from './pages/Quiz.jsx';
 import NotificationProvider from './components/NotificationProvider.jsx';
 import CompanyAnalytics from './pages/CompanyAnalytics.jsx';
 import Notifications from './pages/Notifications.jsx';
+import Main from './pages/Main.jsx';
 
 const router = createBrowserRouter([
   {
@@ -105,6 +106,10 @@ const router = createBrowserRouter([
   {
     path: '/notifications',
     element: <PrivateRoute element={<Notifications />} />,
+  },
+  {
+    path: '/',
+    element: <Main />,
   },
 ]);
 

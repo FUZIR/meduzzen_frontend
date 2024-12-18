@@ -28,7 +28,7 @@ function About({ t }) {
 
             <Button variant="contained" size="large"
                     sx={{ marginTop: 4, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' } }}
-                    href={'/'}>
+                    href={'/profile'}>
               Let's start
             </Button>
           </Box>

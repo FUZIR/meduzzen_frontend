@@ -149,5 +149,7 @@
   "profile_user_rating": "Rating score",
   "profile_user_quizzes_history": "User quizzes history",
   "notifications_header": "Notifications",
-  "notification_create_time": "Created at"
+  "notification_create_time": "Created at",
+  "main_page_welcome": "Welcome to Quizzes",
+  "main_page_start_button": "Start"
 }

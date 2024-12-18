@@ -149,5 +149,7 @@
   "profile_user_rating": "Рейтинговий результат",
   "profile_user_quizzes_history": "Історія квізів",
   "notifications_header": "Повідомлення",
-  "notification_create_time": "Створено"
+  "notification_create_time": "Створено",
+  "main_page_welcome": "Вас вітає Quizzes",
+  "main_page_start_button": "Розпочати"
 }
