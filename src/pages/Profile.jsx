@@ -119,9 +119,11 @@ function Profile({ t }) {
                 {t('profile_owned_companies')}: {owned_companies.map((company) => company.name).join(', ')}
               </Typography>)
             }
-            <Typography variant="body1">
-              {t('profile_user_rating')}: {userRating.average_score}
-            </Typography>
+            {userRating.average_score && (
+              <Typography variant="body1">
+                {t('profile_user_rating')}: {userRating.average_score}
+              </Typography>
+            )}
           </CardContent>
         </Card>
         <CardContent>
